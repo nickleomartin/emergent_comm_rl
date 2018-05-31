@@ -20,7 +20,7 @@ V2:
 V3: 
 - [ ] Pixel input listener model from paper
 - [ ] Pixel input speaker model from paper 
-- [ ] Experiments on MuJoCo engine dataset or similar task
+- [ ] Experiments on [MuJoCo](http://www.mujoco.org/) engine dataset or similar task
 
 
 
