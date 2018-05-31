@@ -1,5 +1,9 @@
 # emergent_comm_rl
-This repo will contain reinforcement learning models used in "Emergence of Linguistic Communication from Referential Games with Symbolic and Pixel Input". The paper can be found [here](https://arxiv.org/abs/1804.03984).
+This repo will contain reinforcement learning models used in "Emergence of Linguistic Communication from Referential Games with Symbolic and Pixel Input". The paper can be found [here](https://arxiv.org/abs/1804.03984). 
+
+Can we induce reinforcement learning agents learn a compositional language using a cooperative task which features an information asymmetry?
+
+How do environmental pressures affect the generated language?
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/emergent_comm_rl/master/images/emergent_comm.png)
 
