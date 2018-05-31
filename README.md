@@ -25,6 +25,10 @@ V3:
 - [ ] Experiments on [MuJoCo](http://www.mujoco.org/) engine dataset or similar task
 - [ ] Jupyter notebook explaining pixel input experiments
 
+V4:
+- [ ] Extend to more realistic and complex environments
+- [ ] Analyse the biases introduced by pre-trained language and vision models on the generated language
+- [ ] Transition from symbols to simple words grounded by a coopertative task
 
 
 
