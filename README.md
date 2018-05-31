@@ -10,10 +10,10 @@ V1:
 - [x] RandomAgent
 - [x] Basic training pipeline
 - [ ] Basic testing and evaluation on novel inputs 
+- [ ] Message introspection using topographical similarity
 - [ ] Jupyter notebook explaining random baseline
 
 V2:
-- [ ] Message introspection (topographical similarity)
 - [ ] Symbolic input listener model from paper
 - [ ] Symbolic input speaker model from paper 
 - [ ] Experiments on [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
