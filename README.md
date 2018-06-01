@@ -6,6 +6,30 @@ This repo will contain reinforcement learning models used in "Emergence of Lingu
 
 ![alt text](https://raw.githubusercontent.com/NickLeoMartin/emergent_comm_rl/master/images/emergent_comm.png)
 
+Get Setup
+---------
+Clone the repo:
+```git clone git@github.com:NickLeoMartin/emergent_comm_rl.git```
+
+Head into the repo and create a virtual environment:
+```
+virtualenv --no-site-packages -p python3 venv
+```
+
+Install the packages used:
+```
+pip install -r requirements.txt
+```
+
+Run the random baseline experiments:
+```
+python -m random_agent_experiments.py
+```
+
+Running Experiments
+-------------------
+
+
 To-Do
 -----
 V1: Random Baseline
