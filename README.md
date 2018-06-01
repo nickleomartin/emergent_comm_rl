@@ -11,9 +11,10 @@ Get Setup
 Clone the repo:
 ```git clone git@github.com:NickLeoMartin/emergent_comm_rl.git```
 
-Head into the repo and create a virtual environment:
+Head into the repo and create and enter a virtual environment:
 ```
 virtualenv --no-site-packages -p python3 venv
+source venv/bin/activate
 ```
 
 Install the packages used:
