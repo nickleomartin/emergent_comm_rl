@@ -12,7 +12,7 @@ V1: Random Baseline
 - [x] Dummy data generator
 - [x] RandomAgent
 - [x] Basic training pipeline
-- [ ] Basic testing and evaluation on novel inputs 
+- [x] Basic testing and evaluation on novel inputs 
 - [ ] Message introspection using topographical similarity
 - [ ] Jupyter notebook explaining random baseline
 
