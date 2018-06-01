@@ -11,7 +11,7 @@ Get Setup
 Clone the repo:
 ```git clone git@github.com:NickLeoMartin/emergent_comm_rl.git```
 
-Head into the repo and create and enter a virtual environment:
+Head into the repo and create and activate a virtual environment:
 ```
 virtualenv --no-site-packages -p python3 venv
 source venv/bin/activate
@@ -22,13 +22,12 @@ Install the packages used:
 pip install -r requirements.txt
 ```
 
+Running Experiments
+-------------------
 Run the random baseline experiments:
 ```
 python -m random_agent_experiments.py
 ```
-
-Running Experiments
--------------------
 
 
 To-Do
