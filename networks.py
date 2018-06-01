@@ -7,7 +7,7 @@ import keras
 from keras.models import Sequential, load_model, Model 
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers import Dense, Convolution2D, LSTM
-from keras.optimizers import rmsprop
+from keras.optimizers import RMSprop
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 
@@ -31,8 +31,12 @@ class RandomAgent(object):
 	ra.fit(train_data)
 
 	"""
-	def __init__(self, config_dict):
+	def __init__(self, config_dict, save_training_stats=True, save_testing_stats=True):
 		self.config_dict = config_dict
+		self.save_training_stats = save_training_stats
+		self.save_testing_stats = save_testing_stats
+		self.training_stats = None
+		self.testing_stats = None
 		self.initialize_parameters()
 
 	def initialize_parameters(self):
@@ -56,16 +60,40 @@ class RandomAgent(object):
 			return 0
 
 	def fit(self, train_data):
-		""" Placeholder function """
+		""" Random Sampling of messages and candidates for training"""
+		self.training_stats = []
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in train_data:
 			message = self.speaker_policy(target_input)
 			chosen_target_idx = self.listener_policy(message,candidates)
-			total_reward += self.calculate_reward(chosen_target_idx,target_candidate_idx)
-		print("Total Reward: %s"%total_reward)
-		print("Percentage Reward: %s"%(total_reward*100/float(len(train_data))))
+			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
+			total_reward += reward
 
+			if self.save_training_stats:
+				self.training_stats.append({
+											"reward": reward,
+											"input": target_input,
+											"message": message,
+											"chosen_target": candidates[chosen_target_idx]
+											})
 
+	def predict(self,test_data):
+		""" Random Sampling of messages and candidates for testing"""
+		self.testing_stats = []
+		total_reward = 0
+		for target_input, candidates, target_candidate_idx in test_data:
+			message = self.speaker_policy(target_input)
+			chosen_target_idx = self.listener_policy(message,candidates)
+			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
+			total_reward += reward
+
+			if self.save_training_stats:
+				self.testing_stats.append({
+											"reward": reward,
+											"input": target_input,
+											"message": message,
+											"chosen_target": candidates[chosen_target_idx]
+											})
 
 
 
