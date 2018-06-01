@@ -36,8 +36,8 @@ V1: Random Baseline
 - [x] Dummy data generator
 - [x] RandomAgent
 - [x] Basic training pipeline
-- [x] Basic testing and evaluation on novel inputs 
-- [ ] Message introspection using topographical similarity
+- [x] Evaluation on novel inputs 
+- [x] Evaluation using topographical similarity
 - [ ] Jupyter notebook explaining random baseline
 
 V2: Symbolic Input Experiment

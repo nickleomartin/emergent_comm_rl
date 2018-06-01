@@ -46,7 +46,7 @@ class RandomAgent(object):
 
 	def speaker_policy(self,target_input,max_message_length=2):
 		""" Randomly generate a message """
-		return [np.random.choice(self.alphabet) for i in range(self.max_message_length)]
+		return "".join([np.random.choice(self.alphabet) for i in range(self.max_message_length)])
 
 	def listener_policy(self,message,candidates):
 		""" Randomly choose a target """
