@@ -7,11 +7,10 @@ from evaluation import obtain_metrics
 ## Create data ##
 #################
 print("Generating training and testing data")
-train_data = generate_dummy_data(v_dim=50,n_dim=1000)
-test_data = generate_dummy_data(v_dim=50,n_dim=1000)
+train_data = generate_dummy_data(config_dict)
+test_data = generate_dummy_data(config_dict)
 
 #################################
-## Initialize and Train Agents ##
 #################################
 print("Training agents")
 ra = RandomAgent(config_dict)
@@ -26,10 +25,4 @@ print("Evaluating agents on novel input")
 ra.predict(test_data)
 testing_stats = ra.testing_stats
 obtain_metrics(testing_stats)
-
-
-
-
-
-
 
