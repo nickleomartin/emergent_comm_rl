@@ -16,4 +16,8 @@ config_dict = {
 				## Listener
 				"listener_lr": 0.001,
 				"listener_dim": 50,
+
+				## Training 
+				"training_epoch": 10000,
+				"batch_size": 32,
 }

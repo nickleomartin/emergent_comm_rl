@@ -135,6 +135,8 @@ class IndependentFullyConnectedAgents(object):
 		self.speaker_dim = self.config_dict['speaker_dim']
 		self.listener_lr = self.config_dict['listener_lr']
 		self.listener_dim = self.config_dict['listener_dim']
+		self.training_epoch = self.config_dict['training_epoch']
+		self.batch_size = self.config_dict['batch_size']
 
 	def initialize_speaker_model(self):
 		""" 2 Layer fully-connected neural network """
@@ -145,7 +147,7 @@ class IndependentFullyConnectedAgents(object):
 		self.speaker_model.add(Dense(output_dim=self.alphabet_size, activation="relu"))
 		# self.speaker_model.add(BatchNormalization())
 		# self.speaker_model.add(Dense(self.alphabet_size,activation="softmax"))
-		self.speaker_model.compile(loss="mse", optimizer=RMSprop(lr=self.speaker_lr))
+		self.speaker_model.compile(loss="sparse_categorical_crossentropy", optimizer=RMSprop(lr=self.speaker_lr))
 
 	def sample_speaker_policy_for_message(self,target_input):
 		""" Stochastically sample message of length self.max_message_length from speaker policy """ 
@@ -170,8 +172,10 @@ class IndependentFullyConnectedAgents(object):
 		self.Y = self.r.flatten() * np.sum(self.m_probs,axis=1) 
 		print("X.shape: %s , Y.shape: %s"%(self.X.shape,self.Y.shape))
 
-		self.speaker_model.train_on_batch(self.X.reshape([1000,50,1]), self.Y.reshape([1000,1]))
+		self.X_ = self.X.reshape([self.batch_size,self.speaker_dim,1])
+		#self.Y_ = self.Y.reshape([self.batch_size,1])
 
+		self.speaker_model.train_on_batch(self.X_, self.Y)
 		print("Batch training complete")
 
 	def infer_from_speaker_policy(self,target_input):
@@ -202,17 +206,18 @@ class IndependentFullyConnectedAgents(object):
 	def store_past(self):
 		pass
 
-
 	def train_agents_on_batch(self):
 		pass
 
 	def fit(self, train_data):
 		""" Random Sampling of messages and candidates for training"""
 		self.training_stats = []
-		self.message_probs_storage = []
-		self.rewards_storage = []
+		message_probs_storage = []
+		rewards_storage = []
 
 		total_reward = 0
+		batch_counter = 0
+		batch_training_inputs = []
 		for target_input, candidates, target_candidate_idx in train_data:
 			message, message_probs = self.sample_speaker_policy_for_message(target_input)
 			print("Message: %s, Probs: %s"%(message,message_probs))
@@ -220,10 +225,12 @@ class IndependentFullyConnectedAgents(object):
 			chosen_target_idx = self.listener_policy(message, candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
+			batch_counter += 1
 
 			## Storage for training
-			self.rewards_storage.append(reward)
-			self.message_probs_storage.append(message_probs)
+			batch_training_inputs.append(target_input)
+			rewards_storage.append(reward)
+			message_probs_storage.append(message_probs)
 
 			if self.save_training_stats:
 				self.training_stats.append({
@@ -233,9 +240,10 @@ class IndependentFullyConnectedAgents(object):
 											"chosen_target": candidates[chosen_target_idx]
 											})
 
-		## Note: Training on all as single update for construction purposes
-		target_inputs_training = [e[0] for e in train_data]
-		self.train_speaker_policy_on_batch(target_inputs_training, self.message_probs_storage, self.rewards_storage)
+			if batch_counter==self.batch_size:
+				self.train_speaker_policy_on_batch(batch_training_inputs, message_probs_storage, rewards_storage)
+				batch_counter = 0
+				batch_training_inputs,  message_probs_storage, rewards_storage = [], [], []
 
 	def predict(self,test_data):
 		""" Random Sampling of messages and candidates for testing"""
