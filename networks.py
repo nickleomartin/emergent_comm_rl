@@ -142,8 +142,10 @@ class IndependentFullyConnectedAgents(object):
 		# self.speaker_model.add(Dense(self.speaker_dim,activation="relu", input_shape=(self.speaker_dim,)))
 		self.speaker_model.add(LSTM(self.speaker_dim,input_shape=(self.speaker_dim,1)))
 		self.speaker_model.add(BatchNormalization())
-		self.speaker_model.add(Dense(self.alphabet_size,activation="softmax"))
-		self.speaker_model.compile(loss="categorical_crossentropy",optimizer=RMSprop(lr=self.speaker_lr))
+		self.speaker_model.add(Dense(output_dim=self.alphabet_size, activation="relu"))
+		# self.speaker_model.add(BatchNormalization())
+		# self.speaker_model.add(Dense(self.alphabet_size,activation="softmax"))
+		self.speaker_model.compile(loss="mse", optimizer=RMSprop(lr=self.speaker_lr))
 
 	def sample_speaker_policy_for_message(self,target_input):
 		""" Stochastically sample message of length self.max_message_length from speaker policy """ 
@@ -151,12 +153,26 @@ class IndependentFullyConnectedAgents(object):
 		normalized_probs = probs/np.sum(probs)
 
 		message = ""
+		message_probs = []
 		for i in range(self.max_message_length):
 			sampled_symbol = np.random.choice(self.alphabet_size, 1, p=normalized_probs[0])[0]
 			message += str(sampled_symbol) + "#"
+			message_probs.append(normalized_probs[0][sampled_symbol])
 		
 		## TODO: Also return sum[log prob () mi | target input and weights)]??
-		return message, normalized_probs
+		return message, message_probs
+
+	def train_speaker_policy_on_batch(self, target_inputs, message_probs, rewards):
+		""" Update speaker policy given rewards """
+		self.m_probs = np.vstack(message_probs)
+		self.r = np.vstack(rewards)
+		self.X = np.squeeze(np.vstack(target_inputs))
+		self.Y = self.r.flatten() * np.sum(self.m_probs,axis=1) 
+		print("X.shape: %s , Y.shape: %s"%(self.X.shape,self.Y.shape))
+
+		self.speaker_model.train_on_batch(self.X.reshape([1000,50,1]), self.Y.reshape([1000,1]))
+
+		print("Batch training complete")
 
 	def infer_from_speaker_policy(self,target_input):
 		""" Greedily obtain message from speaker policy """
@@ -167,7 +183,7 @@ class IndependentFullyConnectedAgents(object):
 		## Greedy get symbols with largest probabilities
 		argmax_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
 		message_probs = normalized_probs[0][argmax_indices]
-		message = "#".join([str(e) for e in argmax_indices])
+		message = "#".join([str(e) for e in list(argmax_indices)])
 		
 		## TODO: Also return sum[log prob () mi | target input and weights)]??
 		return message, message_probs
@@ -193,15 +209,21 @@ class IndependentFullyConnectedAgents(object):
 	def fit(self, train_data):
 		""" Random Sampling of messages and candidates for training"""
 		self.training_stats = []
+		self.message_probs_storage = []
+		self.rewards_storage = []
+
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in train_data:
 			message, message_probs = self.sample_speaker_policy_for_message(target_input)
-
 			print("Message: %s, Probs: %s"%(message,message_probs))
 
 			chosen_target_idx = self.listener_policy(message, candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
+
+			## Storage for training
+			self.rewards_storage.append(reward)
+			self.message_probs_storage.append(message_probs)
 
 			if self.save_training_stats:
 				self.training_stats.append({
@@ -211,12 +233,19 @@ class IndependentFullyConnectedAgents(object):
 											"chosen_target": candidates[chosen_target_idx]
 											})
 
+		## Note: Training on all as single update for construction purposes
+		target_inputs_training = [e[0] for e in train_data]
+		self.train_speaker_policy_on_batch(target_inputs_training, self.message_probs_storage, self.rewards_storage)
+
 	def predict(self,test_data):
 		""" Random Sampling of messages and candidates for testing"""
 		self.testing_stats = []
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in test_data:
 			message, message_probs = self.infer_from_speaker_policy(target_input)
+
+			print("Message: %s, Probs: %s"%(message,message_probs))
+
 			chosen_target_idx = self.listener_policy(message,candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward

@@ -18,13 +18,13 @@ ifca.fit(train_data)
 training_stats = ifca.training_stats
 obtain_metrics(training_stats)
 
-###################################
-## Evaluate Agent Generalisation ##
-###################################
-print("Evaluating agents on novel input")
-ifca.predict(test_data)
-testing_stats = ifca.testing_stats
-obtain_metrics(testing_stats)
+# ###################################
+# ## Evaluate Agent Generalisation ##
+# ###################################
+# print("Evaluating agents on novel input")
+# ifca.predict(test_data)
+# testing_stats = ifca.testing_stats
+# obtain_metrics(testing_stats)
 
 
 
