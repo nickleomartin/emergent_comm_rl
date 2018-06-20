@@ -16,10 +16,10 @@ def generate_dummy_data(config_dict):
 	return training_data_tuples
 
 
-def generate_dummy_categorical_dataset(config_dict):
+def generate_dummy_categorical_dataset(config_dict, dataset="training"):
 	""" Generate random binary vector dataset with categorical labels """
 	v_dim = config_dict['v_dim']
-	n_dim = config_dict['n_dim']
+	n_dim = config_dict['training_n_dim'] if dataset=="training" else config_dict['testing_n_dim']
 	n_distractors = config_dict['n_distractors']
 
 	targets, candidate_sets, labels = [], [], []

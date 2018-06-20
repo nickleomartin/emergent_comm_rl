@@ -151,8 +151,8 @@ class DenseAgents(object):
 
 	def calculate_reward(self, chosen_target_idx, target_candidate_idx):
 		""" Determine reward given indices """
-		print(chosen_target_idx, target_candidate_idx)
-		if np.array_equal(chosen_target_idx, target_candidate_idx):
+		if target_candidate_idx[chosen_target_idx]==1.:
+			print("Correct")
 			return 1
 		else:
 			return 0
@@ -162,7 +162,7 @@ class DenseAgents(object):
 
 		## Sample from speaker
 		speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
-		print("Message: %s, Probs: %s"%(speaker_message, speaker_probs))
+		# print("Message: %s, Probs: %s"%(speaker_message, speaker_probs))
 
 		## Sample from listener
 		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(speaker_message, candidates)
@@ -207,12 +207,15 @@ class DenseAgents(object):
 		self.total_training_reward = 0
 		self.batch_counter = 0
 
+		# len_training_set = len(train_data)
+
 		for target_input, candidates, target_candidate_idx in train_data:
 
 			self.sample_from_networks_on_batch(target_input, candidates, target_candidate_idx)
 
 			if self.batch_counter==self.batch_size:
 				self.train_networks_on_batch()
+				
 
 	def predict(self,test_data):
 		""" Random Sampling of messages and candidates for testing"""
@@ -220,8 +223,7 @@ class DenseAgents(object):
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in test_data:
 			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
-
-			print("Message: %s, Probs: %s"%(message,message_probs))
+			# print("Message: %s, Probs: %s"%(message,message_probs))
 
 			chosen_target_idx = self.listener_model.infer_from_listener_policy(message,candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)

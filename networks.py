@@ -123,10 +123,9 @@ class DenseSpeakerPolicyNetwork(object):
 		normalized_probs = probs/np.sum(probs)
 
 		## Greedily get symbols with largest probabilities
-		argmax_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
-		message_probs = normalized_probs[0][argmax_indices]
-		# message = "#".join([str(e) for e in list(argmax_indices)])
-		message = argmax_indices
+		message_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
+		message_probs = normalized_probs[0][message_indices]
+		message = message_indices
 		
 		## TODO: Also return sum[log prob () mi | target input and weights)]??
 		return message, message_probs
@@ -182,7 +181,7 @@ class DenseListenerPolicyNetwork(object):
 		## Message representation as one-hot for now....
 		m = np.zeros(self.alphabet_size)
 
-		print(speaker_message)
+		# print(speaker_message)
 		for i in range(len(speaker_message)):
 			m[speaker_message[i]] = 1
 
