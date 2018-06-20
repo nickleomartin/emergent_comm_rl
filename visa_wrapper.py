@@ -15,8 +15,7 @@ class VisaDatasetWrapper(object):
 	from visa_wrapper import VisaDatasetWrapper
 
 	vdw = VisaDatasetWrapper()
-	vdw.create_concept_dictionary()
-	vdw.create_symbolic_attribute_vectors()
+	training_set, test_set = vdw.create_train_test_datasets()
 
 	"""
 	def __init__(self, dataset_dir="visa_dataset",file_extension=".xml", ):
@@ -55,10 +54,10 @@ class VisaDatasetWrapper(object):
 			## Get root of tree
 			root = tree.getroot()
 
+			## Define category's dict
 			self.concept_dict[file_category_name] = {} 
 
 			for subcategory in root:
-				# print("subcategory: ", subcategory.tag, subcategory.attrib)
 
 				if subcategory.tag=="concept":
 					concept_attributes = []
@@ -76,7 +75,6 @@ class VisaDatasetWrapper(object):
 				else:
 					for concept in subcategory:
 						concept_attributes = []
-						# print("concept: ",concept.tag, concept.attrib)
 						for item in concept:
 							for attribute in item.text.split("\n"):
 								if attribute.strip()!="":
@@ -111,5 +109,22 @@ class VisaDatasetWrapper(object):
 				vect[attr_indices] = 1.
 				self.symbolic_vectors.append(vect)
 				self.concept_list.append(subcategory)
+
+
+	def create_train_test_datasets(self):
+		""" Randomly split dataset into train and test sets """
+		## TODO: Set random seed
+
+		## TODO: Add comments
+		self.create_concept_dictionary()
+		self.create_symbolic_attribute_vectors()
+
+		## Generate random indixes to partition train and test set
+		indices = np.random.permutation(len(self.symbolic_vectors))
+		training_indices, test_indices = indices[:400], indices[400:]
+		training_set = [self.symbolic_vectors[idx] for idx in training_indices]
+		testing_set = [self.symbolic_vectors[idx] for idx in test_indices]
+		return training_set, testing_set
+
 
 
