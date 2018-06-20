@@ -17,7 +17,7 @@ listener = DenseListenerPolicyNetwork(config_dict)
 
 da = DenseAgents(config_dict,speaker,listener)
 da.fit(train_data)
-#obtain_metrics(da.training_stats, config_dict)
+obtain_metrics(da.training_stats, config_dict)
 
 """ Evaluate Agent Generalisation """
 print("Evaluating agents on novel input")

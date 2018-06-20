@@ -126,7 +126,7 @@ class DenseSpeakerPolicyNetwork(object):
 		message_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
 		message_probs = normalized_probs[0][message_indices]
 		message = message_indices
-		
+
 		## TODO: Also return sum[log prob () mi | target input and weights)]??
 		return message, message_probs
 
@@ -139,11 +139,10 @@ class DenseListenerPolicyNetwork(object):
 	
 	Example:
 	--------
+	from config import config_dict
 	from networks import DenseListenerPolicyNetwork
 	
-	config_dict = .....
 	listener = DenseListenerPolicyNetwork(config_dict)
-
 	"""
 	def __init__(self, config_dict):
 		self.config_dict = config_dict
