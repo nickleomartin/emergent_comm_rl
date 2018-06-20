@@ -9,7 +9,9 @@ This repo will contain reinforcement learning models used in "Emergence of Lingu
 Get Setup
 ---------
 Clone the repo:
-```git clone git@github.com:NickLeoMartin/emergent_comm_rl.git```
+```
+git clone git@github.com:NickLeoMartin/emergent_comm_rl.git
+```
 
 Head into the repo and create and activate a virtual environment:
 ```
@@ -51,9 +53,10 @@ V2: Dense Agents
 - [ ] Jupyter notebook explaining DenseAgent random baseline
 
 V3: Symbolic Input Experiment
+- [ ] Download script for [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
-- [ ] Experiments on [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
+- [ ] Experiments on Visual Attributes of Concepts dataset
 - [ ] Jupyter notebook explaining symbolic input experiments
 
 V4: Pixel Input Experiment
