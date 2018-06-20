@@ -153,7 +153,6 @@ class DenseAgents(object):
 	def calculate_reward(self, chosen_target_idx, target_candidate_idx):
 		""" Determine reward given indices """
 		if target_candidate_idx[chosen_target_idx]==1.:
-			print("Correct")
 			return 1
 		else:
 			return 0
@@ -181,8 +180,6 @@ class DenseAgents(object):
 
 		## Record training statistics
 		if self.save_training_stats:
-
-			print('listener_action: ', listener_action)	
 			self.training_stats.append({
 										"reward": reward,
 										"input": target_input,
