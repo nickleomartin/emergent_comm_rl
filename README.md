@@ -53,10 +53,11 @@ V2: Dense Agents
 - [ ] Jupyter notebook explaining DenseAgent random baseline
 
 V3: Symbolic Input Experiment
-- [ ] Download script for [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
+- [x] Download [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
+- [ ] Preprocess symbolic input dataset
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
-- [ ] Experiments on Visual Attributes of Concepts dataset
+- [ ] Experiments on symbolic input dataset
 - [ ] Jupyter notebook explaining symbolic input experiments
 
 V4: Pixel Input Experiment
