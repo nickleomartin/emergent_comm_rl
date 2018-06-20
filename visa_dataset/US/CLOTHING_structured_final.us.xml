@@ -1,0 +1,1057 @@
+<concepts category="clothing">
+<concept name="apron" synsetID="n02730930">
+<parts>
+    has_belt
+    has_strap
+    has_seams
+    has_pockets
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_colorful
+    has_patterns
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="cloak" synsetID="n03045337">
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_yellow
+    is_red
+    is_green
+    is_brown
+    is_white
+</color_patterns>
+<parts>
+    has_string<no_evidence/>
+    has_seams
+    has_lining<no_evidence/>
+    has_hood
+    has_clasp<no_evidence/>
+</parts>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    made_of_satin
+    made_of_velvet
+    made_of_fur
+    made_of_wool
+    made_of_different_fabrics
+</texture_material>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="coat" synsetID="n03057021">
+<parts>
+    has_belt
+    has_zipper
+    has_buttons
+    has_seams
+    has_cuffs
+    has_collar
+    has_pockets
+    has_lining
+    has_sleeves
+    has_fur
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_cotton
+    made_of_leather
+    made_of_different_fabrics
+    made_of_wool
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_gray
+    is_red
+    is_brown
+</color_patterns>
+</concept>
+<concept name="dress" synsetID="n03236735">
+<parts>
+    has_belt
+    has_strap
+    has_seams
+    has_sleeves
+    has_laces
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_cotton
+    made_of_satin
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    has_patterns<no_evidence/>
+    is_colorful<no_evidence/>
+    is_black
+    is_pink
+    is_blue
+    is_white
+</color_patterns>
+</concept>
+<concept name="gown" synsetID="n03450230">
+<color_patterns>
+    different_colors
+    is_colorful
+    is_red
+    is_purple
+    is_white
+</color_patterns>
+<parts>
+    has_strap
+    has_seams
+    has_laces
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_silk
+    made_of_different_fabrics
+</texture_material>
+</concept>
+<concept name="mink_(coat)" synsetID="n03770954">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_buttons
+    has_zipper<no_evidence/>
+    has_seams
+    has_collar
+    has_pockets<no_evidence/>
+    has_lining<no_evidence/>
+    has_sleeves
+</parts>
+<texture_material>
+    made_of_fur
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="nightgown" synsetID="n03824381">
+<color_patterns>
+    different_colors
+    has_patterns<no_evidence/>
+    is_black
+    is_pink
+    is_white
+</color_patterns>
+<parts>
+    has_strap
+    has_seams
+    has_sleeves
+    has_laces
+</parts>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    is_sheer
+    made_of_satin
+    made_of_different_fabrics
+</texture_material>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="pajamas" synsetID="n03877472">
+<parts>
+    has_shirt
+    has_buttons
+    has_cuffs
+    has_collar
+    has_sleeves
+    has_seams   
+    has_pants
+    has_waistband
+    has_2_legs
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    has_patterns
+    is_colorful
+    is_blue
+    is_pink
+    is_red
+    is_white
+</color_patterns>
+<structure>
+    has_2_pieces
+</structure>
+</concept>
+<concept name="robe" synsetID="n04097866">
+<parts>
+    has_belt
+    has_pockets
+    has_hood
+    has_sleeves
+    has_seams
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_silk
+    made_of_satin
+    made_of_different_fabrics
+    made_of_terry_cloth
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_brown
+    is_white
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="skirt" synsetID="n04230808">
+<texture_material>
+    made_of_cotton
+    made_of_denim
+    made_of_different_fabrics
+</texture_material>
+<parts>
+    has_belt
+    has_zipper
+    has_pockets
+    has_belt_loops
+    has_seams
+    has_waistband
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<color_patterns>
+    different_colors
+    has_patterns
+    is_black
+    is_colorful
+    is_blue
+    is_pink
+    is_green
+    is_white
+</color_patterns>
+</concept>
+<concept name="swimsuit" synsetID="n04371563">
+<parts>
+    has_strap
+    has_string
+    has_cups
+    has_seams
+    has_2_legs
+    has_waistband
+    has_pants
+</parts>
+<texture_material>
+    made_of_different_fabrics
+</texture_material>
+<shape_size>
+    is_thin
+</shape_size>
+<color_patterns>
+    different_colors
+    is_black
+    is_colorful
+</color_patterns>
+<structure>
+    has_2_pieces
+    has_1_piece
+</structure>
+</concept>
+<concept name="boots" synsetID="n02872752">
+<structure>
+    has_2_pieces
+</structure>
+<parts>
+    has_zipper
+    has_fur
+    has_heels
+    has_buckle
+    has_shoe_laces
+    has_soles
+    has_upper
+    has_seams
+</parts>
+<texture_material>
+    made_of_leather
+    made_of_suede
+    made_of_rubber
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_brown
+</color_patterns>
+</concept>
+<concept name="nylons" synsetID="n03836976">
+<color_patterns>
+    different_colors
+    is_black
+    is_brown
+    is_white
+</color_patterns>
+<parts>
+    has_2_legs
+    has_seams
+    has_laces
+    has_runs<no_evidence/>
+</parts>
+<texture_material>
+    is_sheer
+    made_of_cotton
+    made_of_nylon
+    made_of_different_fabrics
+</texture_material>
+<structure>
+    has_2_pieces
+</structure>
+</concept>
+<concept name="sandals" synsetID="n04133789">
+<structure>
+    has_2_pieces
+</structure>
+<parts>
+    has_strap
+    has_heels
+    has_buckle
+    has_soles
+</parts>
+<texture_material>
+    made_of_leather
+    made_of_rubber
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="shoes" synsetID="n04199027">
+<structure>
+    has_2_pieces
+</structure>
+<parts>
+    has_strap
+    has_heels
+    has_seams
+    has_buckle
+    has_soles
+    has_shoe_laces
+    has_tongue
+</parts>
+<texture_material>
+    made_of_suede<no_evidence/>
+    made_of_leather
+    made_of_rubber
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="slippers" synsetID="n04241394">
+<structure>
+    has_2_pieces
+</structure>
+<texture_material>
+    made_of_leather
+    made_of_rubber
+    made_of_silk<no_evidence/>
+    made_of_different_fabrics
+</texture_material>
+<parts>
+    has_seams
+    has_soles
+    has_strap
+</parts>
+<color_patterns>
+    different_colors
+    has_patterns
+    is_black
+    is_colorful
+    is_blue
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="socks" synsetID="n04254777">
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+    made_of_wool
+    has_different_sizes_of_grains_textures
+</texture_material>
+<structure>
+    has_2_pieces
+</structure>
+<color_patterns>
+    different_colors
+    has_patterns
+    is_colorful
+    is_blue
+    is_black
+    has_stripes
+</color_patterns>
+</concept>
+<concept name="gloves" synsetID="n03441112">
+<texture_material>
+    made_of_cotton
+    made_of_leather
+    made_of_wool
+    made_of_different_fabrics
+    has_different_sizes_of_grains_textures
+</texture_material>
+<parts>
+    has_belt
+    has_thumb
+    has_fingers
+    has_seams
+</parts>
+<color_patterns>
+    different_colors
+    is_black
+    is_colorful
+    is_gray
+</color_patterns>
+<structure>
+    has_2_pieces
+</structure>
+</concept>
+<concept name="mittens" synsetID="n03775071">
+<structure>
+    has_2_pieces
+</structure>
+<shape_size>
+    is_oval
+</shape_size>
+<parts>
+    has_seams
+    has_thumb
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_wool
+    has_different_sizes_of_grains_textures
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    has_patterns
+    is_blue
+    is_gray
+    is_red
+    is_purple
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="cap_(hat)" synsetID="n02955065">
+<shape_size>
+    is_round
+</shape_size>
+<parts>
+    has_buttons
+    has_seams
+    has_brim
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+    has_different_sizes_of_grains_textures
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    has_patterns
+    is_blue
+    is_green
+    is_pink
+    is_brown
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="veil" synsetID="n03502331">
+<parts>
+    has_seams
+    has_laces
+</parts>
+<texture_material>
+    made_of_different_fabrics
+    made_of_silk
+    made_of_nylon
+    is_sheer
+</texture_material>
+<color_patterns>
+    different_colors
+    is_red
+    is_blue
+    is_black
+    is_pink
+    is_white
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="hose_(leggings)" synsetID="n03540267">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_2_legs
+    has_pants
+    has_seams
+    has_waistband
+</parts>
+<texture_material>
+    made_of_different_fabrics
+    is_shiny
+    is_sheer
+    has_different_sizes_of_grains_textures
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+</color_patterns>
+</concept>
+<concept name="jeans" synsetID="n03594734">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_buttons
+    has_zipper
+    has_seams
+    has_pockets
+    has_belt_loops
+    has_2_legs
+    has_pants
+    has_waistband
+</parts>
+<texture_material>
+    made_of_cotton
+    has_rips
+    made_of_denim
+    made_of_plastic
+</texture_material>
+<color_patterns>
+    is_black
+    is_blue
+</color_patterns>
+</concept>
+<concept name="pants" synsetID="n02854739">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_waistband
+    has_strips
+    has_laces
+    has_seams
+</parts>
+<color_patterns>
+    different_colors
+    is_black
+    is_colorful
+    is_blue
+    is_red
+    is_yellow
+    is_pink
+    is_white
+</color_patterns>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    is_sheer
+    made_of_different_fabrics
+</texture_material>
+</concept>
+<concept name="trousers" synsetID="n03688605">
+<parts>
+    has_buttons
+    has_zipper
+    has_seams
+    has_pockets
+    has_belt_loops
+    has_2_legs
+    has_pants
+    has_waistband
+    has_pleats
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_leather
+    made_of_denim
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_gray
+    is_brown
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="blouse" synsetID="n02854926">
+<structure>
+    has_1_piece
+</structure>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_white
+</color_patterns>
+<parts>
+    has_buttons
+    has_seams
+    has_cuffs
+    has_collar
+    has_sleeves
+    has_laces
+</parts>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    made_of_suede
+    made_of_different_fabrics
+</texture_material>
+</concept>
+<concept name="camisole" synsetID="n02944075">
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_white
+    is_pink
+</color_patterns>
+<parts>
+    has_strap
+    has_seams
+    has_laces
+</parts>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    is_sheer
+    made_of_different_fabrics
+</texture_material>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="cape" synsetID="n02955767">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_seams
+    has_buttons
+    has_lining
+    has_strap
+    has_hood
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+    made_of_silk
+    made_of_satin
+    made_of_wool
+</texture_material>
+<color_patterns>
+    different_colors
+    is_blue
+    is_black
+    is_red
+</color_patterns>
+</concept>
+<concept name="jacket" synsetID="n03590306">
+<parts>
+    has_lining
+    has_belt<no_evidence/>
+    has_buttons
+    has_zipper
+    has_seams
+    has_pockets
+    has_sleeves
+    has_hood<no_evidence/>
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_suede
+    made_of_leather
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_red
+    is_brown
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="parka" synsetID="n03891051">
+<parts>
+    has_seams
+    has_collar
+    has_pockets
+    has_sleeves
+    has_belt<no_evidence/>
+    has_buttons
+    has_zipper
+    has_lining
+    has_hood
+    has_sleeves
+    has_fur
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+    made_of_leather
+</texture_material>
+<color_patterns>
+    different_colors
+    is_blue
+    is_black
+    is_green
+    is_red
+    is_brown
+</color_patterns>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+<concept name="shirt" synsetID="n04197391">
+<structure>
+    has_1_piece
+</structure>
+<parts>
+    has_buttons
+    has_seams
+    has_collar
+    has_sleeves
+</parts>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+<shape_size>
+    is_thin
+</shape_size>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_green
+    is_red
+    is_yellow
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="sweater" synsetID="n04370048">
+<parts>
+    has_buttons
+    has_seams
+    has_sleeves
+    has_zipper
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_cotton
+    made_of_wool
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_colorful
+    is_blue
+    is_red
+    is_green
+    is_purple
+    is_gray
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="vest" synsetID="n04531873">
+<parts>
+    has_strap
+    has_buckle
+    has_buttons
+    has_zipper
+    has_seams
+    has_pockets<no_evidence/>
+    has_lining<no_evidence/>
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+    is_red
+    is_gray
+    is_brown
+</color_patterns>
+</concept>
+<concept name="bra" synsetID="n02892767">
+<structure>
+    has_1_piece
+</structure>
+<color_patterns>
+    is_red
+    different_colors
+    is_black
+    has_patterns
+    is_white
+</color_patterns>
+<parts>
+    has_strap
+    has_cups
+    has_hook
+    has_clasp
+    has_wires<no_evidence/>
+    has_laces
+</parts>
+<texture_material>
+    made_of_silk
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+</concept>
+<concept name="napkin" synsetID="n03201895">
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_paper
+    made_of_cotton
+    made_of_different_fabrics
+</texture_material>
+<shape_size>
+    is_thin
+    is_rectangular
+    is_small
+</shape_size>
+<color_patterns>
+    different_colors
+    is_white
+</color_patterns>
+</concept>
+<concept name="scarf" synsetID="n04143897">
+<parts>
+    has_string
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_cotton
+    made_of_wool
+    made_of_different_fabrics
+    has_different_sizes_of_grains_textures
+</texture_material>
+<color_patterns>
+    different_colors
+    has_patterns
+    is_colorful
+    is_blue
+    is_green
+    is_pink
+    is_red
+    is_white
+</color_patterns>
+</concept>
+<concept name="shawl" synsetID="n04186455">
+<structure>
+    has_1_piece
+</structure>
+<color_patterns>
+    different_colors
+    is_blue
+    is_red
+    is_green
+    is_yellow
+    is_purple
+    is_brown
+    is_white
+</color_patterns>
+<parts>
+    has_holes
+    has_seams
+    has_laces
+</parts>
+<texture_material>
+    made_of_silk<no_evidence/>
+    made_of_cotton
+    made_of_wool
+    made_of_different_fabrics
+    has_different_sizes_of_grains_textures
+</texture_material>
+</concept>
+<concept name="tie" synsetID="n03815615">
+<structure>
+    has_1_piece
+</structure>
+<color_patterns>
+    different_colors
+    is_black
+    has_patterns
+    is_blue
+    is_red
+    is_gray
+    is_yellow
+    has_stripes
+    has_spots
+</color_patterns>
+<parts>
+    has_seams
+    has_knot
+    has_lining<no_evidence/>
+</parts>
+<shape_size>
+    is_thin
+    has_pointed_end
+    is_long
+</shape_size>
+<texture_material>
+    made_of_silk
+    is_shiny
+    made_of_different_fabrics
+</texture_material>
+</concept>
+<concept name="buckle" synsetID="n02910353">
+<shape_size>
+    different_shapes
+    is_small
+    is_oval
+    different_sizes
+    is_round
+</shape_size>
+<parts>
+    has_stick
+    has_buckle
+</parts>
+<texture_material>
+    made_of_plastic
+    made_of_metal
+</texture_material>
+<color_patterns>
+    has_patterns
+    different_colors
+    is_silver
+    is_gold
+    is_brown
+</color_patterns>
+</concept>
+<concept name="belt" synsetID="n02827606">
+<concept name="earmuffs" synsetID="n03261603">
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_plastic
+    made_of_metal
+    is_shiny
+    made_of_different_fabrics
+</texture_material>
+<parts>
+    has_head-band
+    has_pads
+</parts>
+<color_patterns>
+    different_colors
+    is_black
+    is_blue
+</color_patterns>
+</concept>
+<parts>
+    has_hole
+    has_buckle
+</parts>
+<structure>
+    has_1_piece
+</structure>
+<texture_material>
+    made_of_plastic
+    made_of_cotton
+    made_of_leather
+    made_of_metal
+    made_of_different_fabrics
+</texture_material>
+<color_patterns>
+    is_black
+    has_patterns
+    is_brown
+    different_colors
+</color_patterns>
+</concept>
+<concept name="bow_(ribbon)" synsetID="n02880189">
+<parts>
+    has_ribbon
+    has_bow
+</parts>
+<color_patterns>
+    is_pink
+    different_colors
+</color_patterns>
+<texture_material>
+    made_of_different_fabrics
+    made_of_silk
+    is_shiny
+</texture_material>
+<structure>
+    has_1_piece
+</structure>
+</concept>
+</concepts>

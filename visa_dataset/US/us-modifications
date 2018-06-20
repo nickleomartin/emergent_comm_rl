@@ -1,0 +1,21 @@
+ATTRIBUTES
+Original/BE	US
+colour	color
+grey	gray
+fibre	fiber
+behaviour	behavior
+zip	zipper
+windscreen	windshield
+aluminium	aluminum
+
+CATEGORIES
+UK	US
+artefacts	artifacts
+
+CONCEPTS were not adapted, i.e.
+Original	US
+airplane (not changed to aeroplane in BE)	airplane
+zucchini (not changed to courgette in BE)	zucchini
+pajamas (not changed to pyjamas in BE)	pajamas
+armour	armour (not changed to armor)
+racquet	racquet (not changed to racket)

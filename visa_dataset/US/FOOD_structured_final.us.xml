@@ -1,0 +1,989 @@
+<concepts category="food">
+<subcategory name="fruits_vegetables">
+<concept name="apple" synsetID="n07739125">
+<shape_size>
+    is_round
+</shape_size>
+<botany>
+    has_core
+    has_seeds
+    has_stalks
+    has_pulp
+    has_skin
+    has_peel
+</botany>
+<color_patterns>
+    is_red
+    is_green
+    is_yellow
+    is_pink
+    is_white
+</color_patterns>
+</concept>
+<concept name="asparagus" synsetID="n07719213">
+<botany>
+    has_stalks
+    has_top
+    has_peel
+</botany>
+<color_patterns>
+    is_green
+    is_white
+</color_patterns>
+<shape_size>
+    is_cylindrical
+    is_long
+    has_pointed_end
+</shape_size>
+</concept>
+<concept name="avocado" synsetID="n07764847">
+<botany>
+    has_core
+    has_skin
+    has_pit
+    has_pulp
+    has_peel
+</botany>
+<shape_size>
+    is_oval
+</shape_size>
+<color_patterns>
+    is_black
+    is_green
+    is_brown
+</color_patterns>
+<texture_material>
+    is_wrinkled
+</texture_material>
+</concept>
+<concept name="banana" synsetID="n07753592">
+<botany>
+    has_skin
+    has_peel
+</botany>
+<shape_size>
+    has_pointed_end
+    is_curved
+    is_cylindrical
+    is_long
+</shape_size>
+<color_patterns>
+    has_dark_spots
+    is_yellow
+    is_green
+</color_patterns>
+</concept>
+<concept name="beans" synsetID="n07724943">
+<botany>
+    has_pods
+</botany>
+<shape_size>
+    is_oval
+    is_long
+    is_small
+</shape_size>
+<color_patterns>
+    is_brown
+    is_red
+    is_orange
+    is_green
+    is_white
+    is_yellow
+</color_patterns>
+</concept>
+<concept name="beets" synsetID="n07719839">
+<botany>
+    has_skin
+    has_stalks
+    has_layers
+    has_stem
+    has_leaves
+    has_peel
+</botany>
+<color_patterns>
+    is_red
+</color_patterns>
+<shape_size>
+    is_round
+</shape_size>
+</concept>
+<concept name="blueberry" synsetID="n07743544">
+<botany>
+    has_skin
+</botany>
+<color_patterns>
+    is_blue
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+</concept>
+<concept name="broccoli" synsetID="n07714990">
+<botany>
+    has_stalks
+    has_flowers
+    has_stem
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="cabbage" synsetID="n07713895">
+<botany>
+    has_leaves
+</botany>
+<shape_size>
+    is_round
+</shape_size>
+<color_patterns>
+    is_purple
+    is_green
+</color_patterns>
+</concept>
+<concept name="cantaloupe" synsetID="n12164656">
+<botany>
+    has_skin
+    has_seeds
+    has_rind
+    has_pulp
+</botany>
+<texture_material>
+    has_net_-_like_covering
+</texture_material>
+<shape_size>
+    is_round
+</shape_size>
+<color_patterns>
+    is_orange
+    is_green
+    is_brown
+</color_patterns>
+</concept>
+<concept name="carrot" synsetID="n07730207">
+<botany>
+    has_skin
+    has_stalks
+    has_top
+    has_leaves
+    has_peel
+</botany>
+<shape_size>
+    has_pointed_end
+    is_cylindrical
+    is_long
+</shape_size>
+<color_patterns>
+    is_orange
+</color_patterns>
+</concept>
+<concept name="cauliflower" synsetID="n07715103">
+<botany>
+    has_leaves
+    has_flowers
+</botany>
+<color_patterns>
+    is_purple
+    is_white
+    is_green
+</color_patterns>
+</concept>
+<concept name="celery" synsetID="n07730406">
+<botany>
+    has_stalks
+    has_stem
+    has_leaves
+</botany>
+<shape_size>
+    is_long
+</shape_size>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="cherry" synsetID="n07757132">
+<botany>
+    has_skin
+    has_stalks
+    has_leaves
+    has_pit<no_evidence/>
+</botany>
+<color_patterns>
+    is_red
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    is_shiny
+</texture_material>
+</concept>
+<concept name="coconut" synsetID="n07772935">
+<botany>
+    has_hair
+    has_pulp
+    has_husks
+    has_skin
+    has_shell
+</botany>
+<color_patterns>
+    is_green
+    is_white
+    is_brown
+</color_patterns>
+<shape_size>
+    is_round
+</shape_size>
+<texture_material>
+    has_milk
+</texture_material>
+</concept>
+<concept name="corn" synsetID="n12144580">
+<botany>
+    comes_on_cobs
+    has_seeds
+    has_stalks
+    has_leaves<no_evidence/>
+</botany>
+<color_patterns>
+    is_white
+    is_yellow
+</color_patterns>
+<shape_size>
+    has_pointed_end
+    is_long
+    is_cylindrical
+</shape_size>
+</concept>
+<concept name="cranberry" synsetID="n07743902">
+<botany>
+    has_skin
+    has_leaves<no_evidence/>
+</botany>
+<texture_material>
+    is_shiny
+</texture_material>
+<color_patterns>
+    is_red
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+</concept>
+<concept name="cucumber" synsetID="n07718472">
+<botany>
+    has_skin
+    has_peel
+    has_seeds
+    has_flowers
+    has_warts
+    has_leaves<no_evidence/>
+</botany>
+<color_patterns>
+    is_green
+    is_white
+</color_patterns>
+<shape_size>
+    has_pointed_end
+    is_cylindrical
+    is_long
+</shape_size>
+</concept>
+<concept name="eggplant" synsetID="n07713074">
+<botany>
+    has_skin
+    has_seeds
+    has_stem
+    has_leaves
+    has_pulp
+</botany>
+<color_patterns>
+    is_purple
+    is_white
+    is_green
+    has_green_top
+</color_patterns>
+<shape_size>
+    is_oval
+    is_long
+</shape_size>
+<texture_material>
+    is_shiny
+</texture_material>
+</concept>
+<concept name="garlic" synsetID="n07818277">
+<botany>
+    has_stalks
+    has_peel
+    has_skin
+    comes_in_cloves
+    comes_in_bulbs
+</botany>
+<shape_size>
+    is_small
+    is_round
+    has_pointed_end
+</shape_size>
+<color_patterns>
+    is_white
+</color_patterns>
+</concept>
+<concept name="grape" synsetID="n07758680">
+<botany>
+    has_skin
+    has_stalks
+    has_seeds<no_evidence/>
+    has_leaves
+</botany>
+<shape_size>
+    is_small
+    is_oval
+    is_round
+</shape_size>
+<color_patterns>
+    is_blue
+    is_purple
+    is_green
+</color_patterns>
+</concept>
+<concept name="grapefruit" synsetID="n07749969">
+<botany>
+    has_skin
+    has_seeds
+    has_pulp
+    has_leaves
+    has_peel
+    has_sections
+</botany>
+<shape_size>
+    is_round
+</shape_size>
+<color_patterns>
+    is_red
+    is_green
+    is_yellow
+    is_pink
+</color_patterns>
+</concept>
+<concept name="honeydew" synsetID="n07756325">
+<botany>
+    has_skin
+    has_seeds
+    has_pulp
+    has_peel
+    has_rind
+</botany>
+<color_patterns>
+    is_orange
+    is_white
+    is_green
+    is_yellow
+</color_patterns>
+<shape_size>
+    is_oval
+    is_round
+</shape_size>
+</concept>
+<concept name="lemon" synsetID="n07749582">
+<botany>
+    has_skin
+    has_seeds
+    has_pulp
+    has_leaves
+    has_peel
+    has_sections
+</botany>
+<color_patterns>
+    is_yellow
+</color_patterns>
+<shape_size>
+    is_oval
+    is_round
+    is_small
+    has_pointed_end
+</shape_size>
+<texture_material>
+    is_wrinkled
+    is_shiny
+</texture_material>
+</concept>
+<concept name="lettuce" synsetID="n07723559">
+<botany>
+    is_leafy
+    has_layers
+    has_leaves
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="lime" synsetID="n07749731">
+<botany>
+    has_skin
+    has_pulp
+    has_peel
+    has_sections
+</botany>
+<color_patterns>
+    is_yellow
+    is_green
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+    is_oval
+</shape_size>
+<texture_material>
+    is_shiny
+    is_wrinkled
+</texture_material>
+</concept>
+<concept name="mandarin" synsetID="n07747951">
+<botany>
+    has_skin
+    has_leaves
+    has_pulp
+    has_peel
+    has_sections
+    has_seeds<no_evidence/>
+</botany>
+<color_patterns>
+    is_orange
+</color_patterns>
+<shape_size>
+    is_round
+</shape_size>
+<texture_material>
+    is_wrinkled
+    is_shiny
+</texture_material>
+</concept>
+<concept name="mushroom" synsetID="n07734744">
+<botany>
+    has_skin
+    has_cap
+    has_stem
+</botany>
+<color_patterns>
+    is_red
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="nectarine" synsetID="n07751148">
+<botany>
+    has_skin
+    has_pit<no_evidence/>
+</botany>
+<shape_size>
+    is_round
+</shape_size>
+<color_patterns>
+    is_orange
+    is_yellow
+    is_red
+</color_patterns>
+</concept>
+<concept name="olive" synsetID="n12301445">
+<botany>
+    has_skin
+    has_pit
+    has_stalks
+    has_leaves
+</botany>
+<shape_size>
+    is_oval
+    is_small
+</shape_size>
+<color_patterns>
+    is_black
+    is_purple
+    is_green
+</color_patterns>
+</concept>
+<concept name="onions" synsetID="n07722217">
+<botany>
+    has_skin
+    comes_in_bulbs
+    has_layers
+    has_stalks
+    has_leaves
+    has_peel
+</botany>
+<shape_size>
+    has_pointed_end
+    is_round
+</shape_size>
+<color_patterns>
+    is_purple
+    is_white
+    is_brown
+</color_patterns>
+</concept>
+<concept name="orange" synsetID="n07747607">
+<botany>
+    has_skin
+    has_seeds
+    has_leaves
+    has_pulp
+    has_sections
+    has_peel
+</botany>
+<color_patterns>
+    is_orange
+</color_patterns>
+<shape_size>
+    is_round
+</shape_size>
+<texture_material>
+    is_wrinkled
+    is_shiny
+</texture_material>
+</concept>
+<concept name="parsley" synsetID="n07819896">
+<botany>
+    is_leafy
+    has_stalks
+    has_leaves
+    has_stem
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="peach" synsetID="n07751004">
+<shape_size>
+    is_round
+</shape_size>
+<botany>
+    has_skin
+    has_hair
+    has_pit
+    has_leaves
+</botany>
+<color_patterns>
+    is_red
+    is_orange
+    is_yellow
+</color_patterns>
+</concept>
+<concept name="pear" synsetID="n07767847">
+<botany>
+    has_core
+    has_skin
+    has_seeds
+    has_leaves
+    has_pulp
+    has_stalks
+    has_peel
+</botany>
+<shape_size>
+    is_oval
+</shape_size>
+<color_patterns>
+    is_red
+    is_green
+    is_brown
+    is_yellow
+    is_white
+</color_patterns>
+</concept>
+<concept name="peas" synsetID="n07725531">
+<botany>
+    has_skin
+    has_seeds
+    has_pods
+    has_peel
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+</concept>
+<concept name="pepper" synsetID="n07815956/n07815839">
+<shape_size>
+    is_small
+    is_round
+</shape_size>
+<texture_material>
+    is_wrinkled
+</texture_material>
+<color_patterns>
+    is_black
+    is_brown
+    is_white
+</color_patterns>
+</concept>
+<concept name="pickle" synsetID="n07824988">
+<shape_size>
+    is_cylindrical
+    is_round
+</shape_size>
+<botany>
+    has_skin
+    has_seeds
+    has_warts
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="pineapple" synsetID="n07753275">
+<botany>
+    has_flowers
+    has_leaves
+    has_pulp
+    has_stem
+    has_skin
+    has_core
+</botany>
+<color_patterns>
+    has_green_top
+    is_green
+    is_brown
+    is_yellow
+</color_patterns>
+</concept>
+<concept name="plum" synsetID="n07751451">
+<botany>
+    has_skin
+    has_leaves
+    has_stalks
+    has_pit<no_evidence/>
+</botany>
+<color_patterns>
+    is_red
+    is_purple
+    is_blue
+    is_yellow
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    is_shiny
+</texture_material>
+</concept>
+<concept name="potato" synsetID="n07710616">
+<botany>
+    has_skin
+    has_peel
+</botany>
+<shape_size>
+    is_oval
+    is_round
+</shape_size>
+<color_patterns>
+    is_brown
+    is_yellow
+    has_dark_spots
+</color_patterns>
+</concept>
+<concept name="pumpkin" synsetID="n07735510">
+<botany>
+    has_skin
+    has_stalks
+    has_pulp
+    has_peel
+    has_seeds<no_evidence/>
+    has_leaves<no_evidence/>
+</botany>
+<shape_size>
+    is_oval
+    is_round
+</shape_size>
+<color_patterns>
+    has_green_top
+    is_orange
+</color_patterns>
+</concept>
+<concept name="radish" synsetID="n07735687">
+<botany>
+    has_skin
+    comes_in_bulbs
+    has_stalks
+    has_leaves
+</botany>
+<shape_size>
+    is_oval
+    has_pointed_end
+    is_round
+    is_small
+</shape_size>
+<color_patterns>
+    is_red
+    is_white
+    is_pink
+    has_green_top
+</color_patterns>
+</concept>
+<concept name="raisin" synsetID="n07752664">
+<botany>
+    has_skin
+</botany>
+<color_patterns>
+is_black
+    is_brown
+    is_yellow
+</color_patterns>
+<shape_size>
+    is_oval
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    is_wrinkled
+</texture_material>
+</concept>
+<concept name="raspberry" synsetID="n07745466">
+<botany>
+    has_leaves
+    has_seeds
+    has_stalks
+    has_sections    
+</botany>
+<shape_size>
+    is_small
+    is_round    
+</shape_size>
+<color_patterns>
+    is_red
+</color_patterns>
+</concept>
+<concept name="rhubarb" synsetID="n07713267">
+<botany>
+    has_stalks
+    has_leaves
+</botany>
+<shape_size>
+    is_long
+    is_cylindrical
+</shape_size>
+<color_patterns>
+    has_green_top
+    is_red
+    is_white
+    is_pink
+    is_green
+</color_patterns>
+</concept>
+<concept name="spinach" synsetID="n07736692">
+<botany>
+    has_leaves
+    has_stalks
+</botany>
+<color_patterns>
+    is_green
+</color_patterns>
+</concept>
+<concept name="strawberry" synsetID="n07745940">
+<botany>
+    has_seeds
+    has_stalks
+    has_leaves
+    has_skin
+    has_seeds
+</botany>
+<shape_size>
+    is_small
+    is_oval
+    has_pointed_end
+</shape_size>
+<color_patterns>
+    is_red
+    has_green_top
+    is_white
+</color_patterns>
+</concept>
+<concept name="tangerine" synsetID="n07748416">
+<botany>
+    has_skin
+    has_pulp
+    has_peel
+    has_sections
+    has_seeds<no_evidence/>
+</botany>
+<color_patterns>
+    is_orange
+</color_patterns>
+<shape_size>
+    is_round
+</shape_size>
+<texture_material>
+    is_shiny
+    is_wrinkled
+</texture_material>
+</concept>
+<concept name="tomato" synsetID="n07734017">
+<botany>
+    has_skin
+    has_seeds
+    has_stalks
+    has_leaves
+</botany>
+<color_patterns>
+    is_red
+    is_green
+    has_green_top
+</color_patterns>
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    is_shiny
+</texture_material>
+</concept>
+<concept name="turnip" synsetID="n07735803">
+<botany>
+    has_skin
+    comes_in_bulbs
+    has_stalks
+    has_taproot
+    has_leaves
+    has_peel
+</botany>
+<shape_size>
+    has_pointed_end
+    is_round
+    is_small
+</shape_size>
+<color_patterns>
+    is_purple
+    has_green_top
+    is_white
+</color_patterns>
+</concept>
+<concept name="walnut" synsetID="n07771212">
+<color_patterns>
+    is_green
+    is_brown
+</color_patterns>
+<botany>
+    has_seeds
+    has_shell
+    has_husks
+</botany>
+<shape_size>
+    is_oval
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    is_wrinkled
+</texture_material>
+</concept>
+<concept name="yam" synsetID="n07712267">
+<botany>
+    has_skin
+    has_pulp
+    has_peel
+</botany>
+<shape_size>
+    is_oval
+    has_pointed_end
+</shape_size>
+<color_patterns>
+    is_orange
+    is_brown
+</color_patterns>
+</concept>
+<concept name="zucchini" synsetID="n07716358">
+<botany>
+    has_core
+    has_skin
+    has_seeds
+    has_stalks
+    has_flowers
+    has_stem
+    has_peel
+    has_leaves<no_evidence/>
+</botany>
+<shape_size>
+    has_pointed_end
+    is_cylindrical
+    is_long
+</shape_size>
+<color_patterns>
+    is_yellow
+    is_white
+    is_green
+</color_patterns>
+</concept>
+</subcategory>
+<concept name="biscuit" synsetID="n07693972">
+<shape_size>
+    is_round
+    is_small
+</shape_size>
+<texture_material>
+    has_crust
+</texture_material>
+<color_patterns>
+    is_brown
+    is_white
+    is_yellow
+</color_patterns>
+</concept>
+<concept name="bread" synsetID="n07679356">
+<shape_size>
+    is_oval
+    is_round
+    is_long
+</shape_size>
+<color_patterns>
+    is_orange
+    is_white
+    is_brown
+    is_yellow
+</color_patterns>
+<texture_material>
+    has_seeds
+    has_crust
+</texture_material>
+</concept>
+<concept name="cake" synsetID="n07801508">
+<parts>
+    has_filling
+</parts>
+<color_patterns>
+    is_brown
+    is_pink
+    is_beige
+    is_yellow
+    is_white
+</color_patterns>
+<shape_size>
+    is_rectangular
+    is_round
+</shape_size>
+</concept>
+<concept name="cheese" synsetID="n07850329">
+<shape_size>
+    is_round
+</shape_size>
+<parts>
+    has_rind
+</parts>
+<color_patterns>
+    is_white
+    is_yellow
+</color_patterns>
+</concept>
+<concept name="rice" synsetID="n07804323">
+<shape_size>
+    is_oval
+    is_small    
+</shape_size>
+<color_patterns>
+    is_white
+    is_brown<no_evidence/>
+</color_patterns>
+</concept>
+</concepts>
