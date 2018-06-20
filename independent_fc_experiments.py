@@ -31,8 +31,6 @@ obtain_metrics(testing_stats)
 ###############
 ## Version 2 ##
 ###############
-
-
 from config import config_dict
 from data_generator import generate_dummy_categorical_dataset
 from agents import DenseAgents
@@ -46,13 +44,18 @@ train_data = generate_dummy_categorical_dataset(config_dict)
 test_data = generate_dummy_categorical_dataset(config_dict)
 
 
-
+""" Train Agents """
 speaker = DenseSpeakerPolicyNetwork(config_dict)
 listener = DenseListenerPolicyNetwork(config_dict)
 
 da = DenseAgents(config_dict,speaker,listener)
 da.fit(train_data)
 obtain_metrics(da.training_stats)
+
+""" Evaluate Agent Generalisation """
+print("Evaluating agents on novel input")
+da.predict(test_data)
+obtain_metrics(da.testing_stats)
 
 
 

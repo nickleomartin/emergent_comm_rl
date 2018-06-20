@@ -118,19 +118,19 @@ class DenseSpeakerPolicyNetwork(object):
 		self.batch_probs = [], [], [], [], []
 
 
-	# def infer_from_speaker_policy(self, target_input):
-	# 	""" Greedily obtain message from speaker policy """
-	# 	## Get symbol probabilities given target input
-	# 	probs = self.speaker_model.predict_on_batch(target_input.reshape([self.speaker_dim,1]),batch_size=1)
-	# 	normalized_probs = probs/np.sum(probs)
+	def infer_from_speaker_policy(self, target_input):
+		""" Greedily obtain message from speaker policy """
+		## Get symbol probabilities given target input
+		probs = self.speaker_model.predict_on_batch(target_input.reshape([1,self.speaker_dim]))
+		normalized_probs = probs/np.sum(probs)
 
-	# 	## Greedy get symbols with largest probabilities
-	# 	argmax_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
-	# 	message_probs = normalized_probs[0][argmax_indices]
-	# 	message = "#".join([str(e) for e in list(argmax_indices)])
+		## Greedily get symbols with largest probabilities
+		argmax_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
+		message_probs = normalized_probs[0][argmax_indices]
+		message = "#".join([str(e) for e in list(argmax_indices)])
 		
-	# 	## TODO: Also return sum[log prob () mi | target input and weights)]??
-	# 	return message, message_probs
+		## TODO: Also return sum[log prob () mi | target input and weights)]??
+		return message, message_probs
 
 
 

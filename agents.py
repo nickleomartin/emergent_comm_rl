@@ -222,11 +222,11 @@ class DenseAgents(object):
 		self.testing_stats = []
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in test_data:
-			message, message_probs = self.infer_from_speaker_policy(target_input)
+			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
 
 			print("Message: %s, Probs: %s"%(message,message_probs))
 
-			chosen_target_idx = self.listener_policy(message,candidates)
+			chosen_target_idx = self.listener_model.infer_from_listener_policy(message,candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
 
