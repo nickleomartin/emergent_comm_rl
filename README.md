@@ -54,7 +54,7 @@ V2: Dense Agents
 
 V3: Symbolic Input Experiment
 - [x] Download [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
-- [ ] Preprocess symbolic input dataset
+- [x] Preprocess symbolic input dataset
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
 - [ ] Experiments on symbolic input dataset
