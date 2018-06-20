@@ -125,7 +125,8 @@ class DenseSpeakerPolicyNetwork(object):
 		## Greedily get symbols with largest probabilities
 		argmax_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
 		message_probs = normalized_probs[0][argmax_indices]
-		message = "#".join([str(e) for e in list(argmax_indices)])
+		# message = "#".join([str(e) for e in list(argmax_indices)])
+		message = argmax_indices
 		
 		## TODO: Also return sum[log prob () mi | target input and weights)]??
 		return message, message_probs
@@ -238,10 +239,17 @@ class DenseListenerPolicyNetwork(object):
 
 	def infer_from_listener_policy(self, speaker_message, candidates):
 		""" Randomly choose a target for now ! """
-		y_pred = np.zeros(self.n_classes)
-		rand_idx = np.random.randint(self.n_classes)
-		y_pred[rand_idx] = 1
-		return y_pred
+		## Get symbol probabilities given target input
+		m = np.zeros(self.alphabet_size)
+		for i in range(len(speaker_message)):
+			m[speaker_message[i]] = 1
+
+		probs = self.listener_model.predict_on_batch(m.reshape([1,self.alphabet_size]))
+		normalized_probs = probs/np.sum(probs)
+
+		## Greedily get symbols with largest probabilities
+		target_idx = np.argmax(normalized_probs)
+		return target_idx
 
 
 

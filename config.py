@@ -6,8 +6,8 @@ config_dict = {
 
 				## Language 
 				"max_message_length": 2,
-				"alphabet_size": 100,
-				"alphabet": [str(c) for c in range(100)],
+				"alphabet_size": 62,
+				"alphabet": [c for c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYX0123456789'],
 
 				## Speaker
 				"speaker_lr": 0.0001,
@@ -18,6 +18,6 @@ config_dict = {
 				"listener_dim": 50,
 
 				## Training 
-				"training_epoch": 10000,
+				"training_epoch": 100000,
 				"batch_size": 32,
 }

@@ -13,7 +13,10 @@ def levenshtein_message_distance(m1, m2):
 	""" Use python-levenshtein package to calculate edit distance """
 	return levenshtein.distance(m1,m2) 
 
-def topographic_similarity(input_vectors,messages):
+def message_sequence_to_alphabet(message, alphabet):
+	return "".join(alphabet[int(idx)] for idx in message)
+
+def topographic_similarity(input_vectors, messages):
 	""" 
 	Calculate negative spearman correlation between message levenshtein distances
 	and cosine similarities of input vectors 
@@ -41,7 +44,7 @@ def topographic_similarity(input_vectors,messages):
 
 	return - rho.correlation
 
-def obtain_metrics(training_stats):
+def obtain_metrics(training_stats, config_dict):
 	""" Compute metrics given trianing stats list of dicts"""
 	metrics = {}
 
@@ -51,7 +54,7 @@ def obtain_metrics(training_stats):
 
 	## Topographic similarity
 	input_vectors = [e['input'] for e in training_stats]
-	messages = [e['message'] for e in training_stats]
+	messages = [message_sequence_to_alphabet(e['message'], config_dict['alphabet']) for e in training_stats]
 	metrics['topographical_sim'] = topographic_similarity(input_vectors,messages)
 
 	return metrics

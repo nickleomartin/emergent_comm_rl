@@ -232,7 +232,7 @@ class DenseAgents(object):
 											"reward": reward,
 											"input": target_input,
 											"message": message,
-											"chosen_target": candidates[np.where(chosen_target_idx==1)[0][0]]
+											"chosen_target": candidates[chosen_target_idx]
 											})
  
 
