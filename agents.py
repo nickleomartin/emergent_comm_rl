@@ -161,17 +161,17 @@ class DenseAgents(object):
 	def sample_from_networks_on_batch(self, target_input, candidates, target_candidate_idx):
 
 		## Sample from speaker
-		message, speaker_action, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
-		print("Message: %s, Probs: %s"%(message, speaker_probs))
+		speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
+		print("Message: %s, Probs: %s"%(speaker_message, speaker_probs))
 
 		## Sample from listener
-		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(message, candidates)
+		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(speaker_message, candidates)
 
 		## Calculate reward
 		reward = self.calculate_reward(listener_action, target_candidate_idx)
 
 		## Store batch inputs and outputs
-		self.speaker_model.remember_speaker_training_details(target_input, speaker_action, speaker_probs, reward)
+		self.speaker_model.remember_speaker_training_details(target_input, speaker_message, speaker_probs, reward)
 		self.listener_model.remember_listener_training_details(target_input, listener_action, listener_probs, reward)
 
 		## Increment batch statistics
@@ -180,17 +180,18 @@ class DenseAgents(object):
 
 		## Record training statistics
 		if self.save_training_stats:
-				self.training_stats.append({
-											"reward": reward,
-											"input": target_input,
-											"message": message,
-											"chosen_target": candidates[np.where(listener_action==1)[0][0]]
-											})
+
+			print('listener_action: ', listener_action)	
+			self.training_stats.append({
+										"reward": reward,
+										"input": target_input,
+										"message": speaker_message,
+										"chosen_target": candidates[listener_action]
+										})
 
 
 	def train_networks_on_batch(self):
-		""" """
-
+		""" Train Speaker and Listener network on batch """
 		## Train speaker model 
 		self.speaker_model.train_speaker_policy_on_batch()
 
@@ -212,10 +213,6 @@ class DenseAgents(object):
 
 			if self.batch_counter==self.batch_size:
 				self.train_networks_on_batch()
-
-
-
-
 
 	def predict(self,test_data):
 		""" Random Sampling of messages and candidates for testing"""

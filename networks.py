@@ -57,23 +57,20 @@ class DenseSpeakerPolicyNetwork(object):
 		self.speaker_model.add(Dense(self.alphabet_size,activation="softmax"))
 		self.speaker_model.compile(loss="categorical_crossentropy", optimizer=RMSprop(lr=self.speaker_lr))
 	
-	def sample_speaker_policy_for_message(self,target_input):
+	def sample_speaker_policy_for_message(self, target_input):
 		""" Stochastically sample message of length self.max_message_length from speaker policy """ 
 		t_input = target_input.reshape([1,self.speaker_dim])
 		probs = self.speaker_model.predict_on_batch(t_input)
 		normalized_probs = probs / np.sum(probs)
-		print("probs shape: ", probs.shape)
 
-		message = ""
-		action = []
+		speaker_message = []
 		for i in range(self.max_message_length):
 			## TODO: Implement Policy class: EpsilonGreedy if training else np.argmax
 			sampled_symbol = np.random.choice(self.alphabet_size, 1, p=normalized_probs[0])[0]
-			action.append(sampled_symbol)
-			message += str(sampled_symbol) + "#"
+			speaker_message.append(sampled_symbol)
 		
 		## Return action and probs
-		return message, action, normalized_probs
+		return speaker_message, normalized_probs
 
 	def remember_speaker_training_details(self, target_input, action, speaker_probs, reward):
 		""" Store inputs and outputs needed for training """
@@ -97,11 +94,12 @@ class DenseSpeakerPolicyNetwork(object):
 
 		## Batch standardise rewards. Note: no discounting of rewards
 		rewards = np.vstack(self.batch_rewards)
-		rewards = rewards / np.std(rewards - np.mean(rewards))
+
+		if np.count_nonzero(rewards)>0:
+			rewards = rewards / np.std(rewards - np.mean(rewards)) ## TODO: Handle zero rewards
 
 		## Calculate gradients * rewards
 		gradients *= rewards
-		print("gradients shape: ", gradients.shape)
 
 		## Create X
 		X = np.vstack([self.batch_target_inputs])
@@ -173,24 +171,64 @@ class DenseListenerPolicyNetwork(object):
 	def initialize_listener_model(self):
 		""" 2 Layer fully-connected neural network """
 		self.listener_model = Sequential()
-		self.listener_model.add(Dense(self.listener_dim, activation="relu", input_shape=(self.listener_dim,)))
+		self.listener_model.add(Dense(self.alphabet_size, activation="relu", input_shape=(self.alphabet_size,)))
+		self.listener_model.add(Dense(self.listener_dim, activation="relu"))
 		self.listener_model.add(Dense(self.n_classes,activation="softmax"))
 		self.listener_model.compile(loss="categorical_crossentropy", optimizer=RMSprop(lr=self.listener_lr))
 	
-	def sample_from_listener_policy(self, message, candidates):
-		""" Randomly choose a target for now ! """
-		action = np.zeros(self.n_classes)
-		rand_idx = np.random.randint(self.n_classes)
-		action[rand_idx] = 1
-		normalized_probs = np.array([1/float(self.n_classes)]*self.n_classes)
+	def sample_from_listener_policy(self, speaker_message, candidates):
+		""" """
+		## Message representation as one-hot for now....
+		m = np.zeros(self.alphabet_size)
+
+		print(speaker_message)
+		for i in range(len(speaker_message)):
+			m[speaker_message[i]] = 1
+
+		t_input = m.reshape([1,self.alphabet_size])
+		probs = self.listener_model.predict_on_batch(t_input)
+		normalized_probs = probs / np.sum(probs)
+
+		## TODO: Implement Policy class: EpsilonGreedy if training else np.argmax
+		action = np.random.choice(self.n_classes, 1, p=normalized_probs[0])[0]
+		
+		## Return action and probs
 		return action, normalized_probs
 
 	def train_listener_policy_on_batch(self):
-		pass
+		""" Update listener policy given rewards """
+		gradients = np.vstack(self.batch_gradients)
 
-	def remember_listener_training_details(self, message, action, listener_probs, reward):
+		## Batch standardise rewards. Note: no discounting of rewards
+		rewards = np.vstack(self.batch_rewards)
+
+		if np.count_nonzero(rewards)>0:
+			rewards = rewards / np.std(rewards - np.mean(rewards))
+
+		## Calculate gradients * rewards
+		gradients *= rewards
+
+		## Create X
+		X = np.vstack([self.batch_messages])
+
+		## Create Y = probs + lr * gradients
+		Y = np.squeeze(np.array(self.batch_probs)) + self.speaker_lr * np.squeeze(np.vstack([gradients]))
+
+		## Train model
+		self.listener_model.train_on_batch(X, Y)
+
+		## Reset batch memory
+		self.batch_messages, self.batch_actions, \
+		self.batch_rewards, self.batch_gradients, \
+		self.batch_probs = [], [], [], [], []
+
+	def remember_listener_training_details(self, speaker_message, action, listener_probs, reward):
 		""" Store inputs and outputs needed for training """
-		self.batch_messages.append(message) 
+		m = np.zeros(self.alphabet_size)
+		for i in range(len(speaker_message)):
+			m[speaker_message[i]] = 1
+
+		self.batch_messages.append(m) 
 		self.batch_actions.append(action)
 		self.batch_rewards.append(reward)
 		self.batch_probs.append(listener_probs)
@@ -198,7 +236,7 @@ class DenseListenerPolicyNetwork(object):
 		gradients = np.array(action).astype("float32") - listener_probs
 		self.batch_gradients.append(gradients)
 
-	def infer_from_listener_policy(self, message, candidates):
+	def infer_from_listener_policy(self, speaker_message, candidates):
 		""" Randomly choose a target for now ! """
 		y_pred = np.zeros(self.n_classes)
 		rand_idx = np.random.randint(self.n_classes)
