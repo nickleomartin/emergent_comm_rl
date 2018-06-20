@@ -165,8 +165,13 @@ class IndependentFullyConnectedAgents(object):
 
 	def sample_speaker_policy_for_message(self,target_input):
 		""" Stochastically sample message of length self.max_message_length from speaker policy """ 
-		probs = self.speaker_model.predict(target_input.reshape([1,self.speaker_dim,1]),batch_size=1)
+
+		t_input = target_input.reshape([1,self.speaker_dim])
+		print(t_input.shape)
+
+		probs = self.speaker_model.predict_on_batch(t_input)
 		normalized_probs = probs/np.sum(probs)
+		print("probs shape: ", probs.shape)
 
 		message = ""
 		message_probs = []
@@ -175,18 +180,32 @@ class IndependentFullyConnectedAgents(object):
 			message += str(sampled_symbol) + "#"
 			message_probs.append(normalized_probs[0][sampled_symbol])
 		
-		## TODO: Also return sum[log prob () mi | target input and weights)]??
+		## Return action and probs
 		return message, message_probs
 
 	def train_speaker_policy_on_batch(self, target_inputs, message_probs, rewards):
 		""" Update speaker policy given rewards """
+		## Calculate gradients = action - probs
+
+		## Batch standardise rewards
+
+		## Calculate gradients * rewards
+
+		## Create X
+
+		## Create Y = probs + lr * gradients
+
+		## Train model
+
+		## Reset states, probs, gradients, rewards = [], [], [], []
+
 		self.m_probs = np.vstack(message_probs)
 		self.r = np.vstack(rewards)
 		self.X = np.squeeze(np.vstack(target_inputs))
 		self.Y = self.r.flatten() * np.sum(self.m_probs,axis=1) 
 		print("X.shape: %s , Y.shape: %s"%(self.X.shape,self.Y.shape))
 
-		self.X_ = self.X.reshape([self.batch_size,self.speaker_dim,1])
+		self.X_ = self.X.reshape([self.batch_size,self.speaker_dim])
 		#self.Y_ = self.Y.reshape([self.batch_size,1])
 
 		self.speaker_model.train_on_batch(self.X_, self.Y)
@@ -195,7 +214,7 @@ class IndependentFullyConnectedAgents(object):
 	def infer_from_speaker_policy(self,target_input):
 		""" Greedily obtain message from speaker policy """
 		## Get symbol probabilities given target input
-		probs = self.speaker_model.predict(target_input.reshape([1,self.speaker_dim,1]),batch_size=1)
+		probs = self.speaker_model.predict_on_batch(target_input.reshape([self.speaker_dim,1]),batch_size=1)
 		normalized_probs = probs/np.sum(probs)
 
 		## Greedy get symbols with largest probabilities
@@ -208,11 +227,16 @@ class IndependentFullyConnectedAgents(object):
 
 	def listener_policy(self,message,candidates):
 		""" Randomly choose a target """
-		return np.random.randint(len(candidates))
+		# return np.random.randint(len(candidates))
+		y_pred = np.zeros(self.n_classes)
+		rand_idx = np.random.randint(self.n_classes)
+		y_pred[rand_idx] = 1
+		return y_pred
 
 	def calculate_reward(self, chosen_target_idx, target_candidate_idx):
 		""" Determine reward given indices """
-		if chosen_target_idx==target_candidate_idx:
+		print(chosen_target_idx, target_candidate_idx)
+		if np.array_equal(chosen_target_idx, target_candidate_idx):
 			return 1
 		else:
 			return 0
@@ -222,6 +246,11 @@ class IndependentFullyConnectedAgents(object):
 
 	def train_agents_on_batch(self):
 		pass
+
+	def remember_speaker_training_details(self, state, action, y_true, prob, reward):
+		""" Store inputs and outputs needed for training """
+		gradient = y_true 
+		self.gradients = 
 
 	def fit(self, train_data):
 		""" Random Sampling of messages and candidates for training"""
@@ -251,7 +280,7 @@ class IndependentFullyConnectedAgents(object):
 											"reward": reward,
 											"input": target_input,
 											"message": message,
-											"chosen_target": candidates[chosen_target_idx]
+											"chosen_target": candidates[np.where(chosen_target_idx==1)[0][0]]
 											})
 
 			if batch_counter==self.batch_size:
@@ -277,7 +306,7 @@ class IndependentFullyConnectedAgents(object):
 											"reward": reward,
 											"input": target_input,
 											"message": message,
-											"chosen_target": candidates[chosen_target_idx]
+											"chosen_target": candidates[np.where(chosen_target_idx==1)[0][0]]
 											})
 
 
