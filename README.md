@@ -24,11 +24,15 @@ pip install -r requirements.txt
 
 Running Experiments
 -------------------
-Run the random baseline experiments:
+Run the random baseline with RandomAgents:
 ```
 python -m random_agent_experiments.py
 ```
 
+Run the random baseline with DenseAgents:
+```
+python -m dense_agents_experiments.py
+```
 
 To-Do
 -----
@@ -40,19 +44,25 @@ V1: Random Baseline
 - [x] Evaluation using topographical similarity
 - [ ] Jupyter notebook explaining random baseline
 
-V2: Symbolic Input Experiment
+V2: Dense Agents
+- [x] Listener policy network
+- [x] Speaker policy network
+- [x] Random dataset baseline
+- [ ] Jupyter notebook explaining DenseAgent random baseline
+
+V3: Symbolic Input Experiment
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
 - [ ] Experiments on [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
 - [ ] Jupyter notebook explaining symbolic input experiments
 
-V3: Pixel Input Experiment
+V4: Pixel Input Experiment
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
 - [ ] Experiments on [MuJoCo](http://www.mujoco.org/) engine dataset or similar task
 - [ ] Jupyter notebook explaining pixel input experiments
 
-V4:
+V5:
 - [ ] Extend to more realistic and complex environments e.g. 3D cooperative games
 - [ ] Extend to different types of cooperative tasks e.g. OpenAI Gym games
 - [ ] Extend to multi-step games and turn-taking
