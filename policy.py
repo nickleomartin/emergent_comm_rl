@@ -26,7 +26,7 @@ class EpsilonGreedyMessagePolicy(BasePolicy):
 	probs = np.array([[0.1,0.2,0.3,0.1,0.1,0.2]])
 	n_actions = 2
 	m_length = 2
-	
+
 	egmp = EpsilonGreedyMessagePolicy()
 	egmp.select_action(probs,n_actions, m_length)
 
@@ -53,6 +53,7 @@ class EpsilonGreedyMessagePolicy(BasePolicy):
 
 
 
+""" Reference: See https://github.com/keras-rl/keras-rl/blob/master/rl/policy.py for Boltzmann Policy """
 
 
 

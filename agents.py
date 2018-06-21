@@ -13,17 +13,6 @@ from keras import backend as K
 
 
 
-# class BaseAgent(object):
-# 	""" Parent agent """
-# 	def __init__(self):
-# 		pass
-
-# 	def save_policy_networks(self):
-# 		pass
-
-
-
-
 class RandomAgent(object):
 	"""
 	Agent that randomly chooses messages and targets as a baseline

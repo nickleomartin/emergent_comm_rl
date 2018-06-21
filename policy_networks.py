@@ -11,12 +11,10 @@ from keras.optimizers import RMSprop
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 
+from base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicyNetwork
 
-""" See https://github.com/keras-rl/keras-rl/blob/master/rl/policy.py for Boltzmann Policy """
 
-## TODO: Inherit from BasePolicyNetwork later....
-
-class DenseSpeakerPolicyNetwork(object):
+class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
 	""" Fully connected speaker policy model 
 	
 	Example:
@@ -25,32 +23,11 @@ class DenseSpeakerPolicyNetwork(object):
 	from networks import DenseSpeakerPolicyNetwork
 	
 	speaker = DenseSpeakerPolicyNetwork(config_dict)
-
 	"""
 	def __init__(self, config_dict):
-		self.config_dict = config_dict
-		self.batch_target_inputs = []
-		self.batch_rewards = []
-		self.batch_actions = []
-		self.batch_probs = []
-		self.batch_gradients = []
-		self.initialize_parameters()
-		self.initialize_speaker_model()
+		super(DenseSpeakerPolicyNetwork, self).__init__(config_dict)
 
-	def initialize_parameters(self):
-		""" Assign config parameters to local vars """
-		self.max_message_length = self.config_dict['max_message_length']
-		self.alphabet = self.config_dict['alphabet']
-		self.alphabet_size = self.config_dict['alphabet_size']
-		self.speaker_lr = self.config_dict['speaker_lr']
-		self.speaker_dim = self.config_dict['speaker_dim']
-		self.listener_lr = self.config_dict['listener_lr']
-		self.listener_dim = self.config_dict['listener_dim']
-		self.training_epoch = self.config_dict['training_epoch']
-		self.batch_size = self.config_dict['batch_size']
-		self.n_classes = self.config_dict['n_distractors'] + 1
-
-	def initialize_speaker_model(self):
+	def initialize_model(self):
 		""" 2 Layer fully-connected neural network """
 		self.speaker_model = Sequential()
 		self.speaker_model.add(Dense(self.speaker_dim, activation="relu", input_shape=(self.speaker_dim,)))
@@ -134,8 +111,8 @@ class DenseSpeakerPolicyNetwork(object):
 
 
 
-class DenseListenerPolicyNetwork(object):
-	""" Fully connected speaker policy model 
+class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
+	""" Fully connected listener policy model 
 	
 	Example:
 	--------
@@ -145,29 +122,9 @@ class DenseListenerPolicyNetwork(object):
 	listener = DenseListenerPolicyNetwork(config_dict)
 	"""
 	def __init__(self, config_dict):
-		self.config_dict = config_dict
-		self.batch_messages = []
-		self.batch_rewards = []
-		self.batch_actions = []
-		self.batch_probs = []
-		self.batch_gradients = []
-		self.initialize_parameters()
-		self.initialize_listener_model()
+		super(DenseListenerPolicyNetwork, self).__init__(config_dict)
 
-	def initialize_parameters(self):
-		""" Assign config parameters to local vars """
-		self.max_message_length = self.config_dict['max_message_length']
-		self.alphabet = self.config_dict['alphabet']
-		self.alphabet_size = self.config_dict['alphabet_size']
-		self.speaker_lr = self.config_dict['speaker_lr']
-		self.speaker_dim = self.config_dict['speaker_dim']
-		self.listener_lr = self.config_dict['listener_lr']
-		self.listener_dim = self.config_dict['listener_dim']
-		self.training_epoch = self.config_dict['training_epoch']
-		self.batch_size = self.config_dict['batch_size']
-		self.n_classes = self.config_dict['n_distractors'] + 1
-
-	def initialize_listener_model(self):
+	def initialize_model(self):
 		""" 2 Layer fully-connected neural network """
 		self.listener_model = Sequential()
 		self.listener_model.add(Dense(self.alphabet_size, activation="relu", input_shape=(self.alphabet_size,)))
@@ -211,7 +168,7 @@ class DenseListenerPolicyNetwork(object):
 		X = np.vstack([self.batch_messages])
 
 		## Create Y = probs + lr * gradients
-		Y = np.squeeze(np.array(self.batch_probs)) + self.speaker_lr * np.squeeze(np.vstack([gradients]))
+		Y = np.squeeze(np.array(self.batch_probs)) + self.listener_lr * np.squeeze(np.vstack([gradients]))
 
 		## Train model
 		self.listener_model.train_on_batch(X, Y)
@@ -249,73 +206,3 @@ class DenseListenerPolicyNetwork(object):
 		target_idx = np.argmax(normalized_probs)
 		return target_idx
 
-
-
-## TODO: Implement Parent class at first re-factor....
-
-# class BasePolicyNetwork(object):
-# 	""" Parent model with save and load methods """
-# 	def __init__(self):
-# 		self._model = None
-# 		self._config_dict = None
-
-# 	def load_config(self):
-# 		""" Read in config parameters """
-# 		assert self._config_dict is not None, "Please pass in the config dictionary"
-# 		self._max_message_length = self._config_dict['max_message_length']
-# 		self._alphabet = self._config_dict['alphabet']
-# 		self._alphabet_size = self._config_dict['alphabet_size']
-# 		self._speaker_lr = self._config_dict['speaker_lr']
-# 		self._speaker_dim = self._config_dict['speaker_dim']
-# 		self._listener_lr = self._config_dict['listener_lr']
-# 		self._listener_dim = self._config_dict['listener_dim']
-# 		self._training_epoch = self._config_dict['training_epoch']
-# 		self._batch_size = self._config_dict['batch_size']
-# 		self._n_classes = self._config_dict['n_distractors'] + 1
-
-# 	def save(self, weights_file, params_file):
-# 		""" Save weights and parameters to file """
-# 		self.save_weights(weights_file)
-# 		self.save_params(params_file)
-
-# 	def save_weights(self, file_path):
-# 		""" Save model weights to file """
-# 		self._model.save_weights(file_path)
-
-# 	def save_params(self, file_path):
-# 		""" Save model parameters to file """
-# 		with open(file_path, 'w') as f:
-# 			params = {name.lstrip('_'): val for name, val in vars(self).items()
-# 					if name not in {'_loss','model','_embeddings'}}
-# 			json.dump(params, f, sort_keys=True, indent=4)
-
-# 	@classmethod
-# 	def load_params(cls, weights_file, params_file):
-# 		""" Instantiate and load previous model """
-# 		params = cls.load_params(params_file)
-# 		self = cls(**params)
-# 		self.construct()
-# 		self._model.load_weights(weights_file)
-# 		return self 
-
-# 	@classmethod
-# 	def load(cls, file_path):
-# 		""" Load parameters from file """
-# 		with open(file_path) as f:
-# 			params = json.load(f)
-# 		return params
-
-
-# T = Input(shape=[50])
-# t = Dense(50, activation="relu", kernel_initializer="he_normal")(t)
-# # t = BatchNormalization()(t)
-# t = LSTM(50,return_sequences=False,input_shape=(50,))(t)
-# m = Dense(alphabet_size, activation="linear", kernel_initializer="zero")(t)
-# model = Model(T,m)
-# model.compile(loss="mse",optimizer=RMSprop(lr=0.0001))
-
-
-"""
-Speaker policy network
-t => MLP => t_dense => LSTM => m
-"""
