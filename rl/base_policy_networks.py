@@ -36,7 +36,7 @@ class BaseSpeakerPolicyNetwork(BasePolicyNetwork):
 		self.initialize_parameters()
 		self.initialize_model()
 
-	def sample_speaker_policy_for_message(self):
+	def sample_speaker_policy_for_message(self, target_input):
 		""" Sample message of length self.max_message_length from speaker policy """ 
 		pass
 
@@ -65,7 +65,7 @@ class BaseListenerPolicyNetwork(BasePolicyNetwork):
 		self.initialize_parameters()
 		self.initialize_model()
 
-	def sample_listener_policy_for_message(self):
+	def sample_from_listener_policy(self):
 		""" Sample target index from speaker policy """ 
 		pass
 

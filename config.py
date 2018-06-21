@@ -21,6 +21,7 @@ random_config_dict = {
 				## Training 
 				"training_epoch": 10000,
 				"batch_size": 32,
+				"n_batches": 100,
 
 				## Train-split 
 				"train_split_percent": 0.8,

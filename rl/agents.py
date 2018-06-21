@@ -13,108 +13,10 @@ from keras import backend as K
 
 
 
-class RandomAgent(object):
+
+class BaseAgents(object):
 	"""
-	Agent that randomly chooses messages and targets as a baseline
-
-	Example
-	-------
-	from config import config_dict
-	from data_generator import generate_dummy_data
-	from networks import RandomAgent
-	
-	## Get training data
-	train_data = generate_dummy_data()
-
-	## Initialize and train agent
-	ra = RandomAgent(config_dict)
-	ra.fit(train_data)
-
-	"""
-	def __init__(self, config_dict, save_training_stats=True, save_testing_stats=True):
-		self.config_dict = config_dict
-		self.save_training_stats = save_training_stats
-		self.save_testing_stats = save_testing_stats
-		self.training_stats = None
-		self.testing_stats = None
-		self.initialize_parameters()
-
-	def initialize_parameters(self):
-		""" Assign config parameters to local vars """
-		self.max_message_length = self.config_dict['max_message_length']
-		self.alphabet = self.config_dict['alphabet']
-		self.alphabet_size = self.config_dict['alphabet_size']
-
-	def speaker_policy(self,target_input, max_message_length=2):
-		""" Randomly generate a message """
-		return [np.random.choice(range(self.alphabet_size)) for i in range(self.max_message_length)]
-
-	def listener_policy(self, speaker_message, candidates):
-		""" Randomly choose a target """
-		return np.random.randint(len(candidates))
-
-	def calculate_reward(self, chosen_target_idx, target_candidate_idx):
-		""" Determine reward given indices """
-		if target_candidate_idx[chosen_target_idx]==1.:
-			return 1
-		else:
-			return 0
-
-	def fit(self, train_data):
-		""" Random Sampling of messages and candidates for training"""
-		self.training_stats = []
-		total_reward = 0
-		for target_input, candidates, target_candidate_idx in train_data:
-			speaker_message = self.speaker_policy(target_input)
-			chosen_target_idx = self.listener_policy(speaker_message,candidates)
-			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
-			total_reward += reward
-
-			if self.save_training_stats:
-				self.training_stats.append({
-											"reward": reward,
-											"input": target_input,
-											"message": speaker_message,
-											"chosen_target_idx": chosen_target_idx
-											})
-
-	def predict(self,test_data):
-		""" Random Sampling of messages and candidates for testing"""
-		self.testing_stats = []
-		total_reward = 0
-		for target_input, candidates, target_candidate_idx in test_data:
-			message = self.speaker_policy(target_input)
-			chosen_target_idx = self.listener_policy(message,candidates)
-			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
-			total_reward += reward
-
-			if self.save_training_stats:
-				self.testing_stats.append({
-											"reward": reward,
-											"input": target_input,
-											"message": message,
-											"chosen_target_idx": chosen_target_idx,
-											})
-
-
-
-class DenseAgents(object):
-	"""
-	Two independent agents which use fully connected neural networks and 
-	jointly optimize given only the reward
-
-	Example
-	-------
-	from config import config_dict
-	from data_generator import generate_dummy_data
-	from networks import RandomAgent
-	
-	## Get training data
-	train_data = generate_dummy_data()
-
-	## Initialize and train agent
-	ifca = DenseAgents(config_dict)
-	ifca.fit(train_data)
+	Abstraction of agents
 	"""
 	def __init__(self, config_dict, speaker, listener, save_training_stats=True, save_testing_stats=True):
 		self.config_dict = config_dict
@@ -147,7 +49,6 @@ class DenseAgents(object):
 		else:
 			return 0
 
-
 	def sample_from_networks_on_batch(self, target_input, candidates, target_candidate_idx):
 
 		## Sample from speaker
@@ -176,7 +77,6 @@ class DenseAgents(object):
 										"chosen_target_idx": listener_action
 										})
 
-
 	def train_networks_on_batch(self):
 		""" Train Speaker and Listener network on batch """
 		## Train speaker model 
@@ -185,7 +85,6 @@ class DenseAgents(object):
 		self.listener_model.train_listener_policy_on_batch()
 		## Reset batch counter
 		self.batch_counter = 0
-
 
 	def fit(self, train_data):
 		""" Random Sampling of messages and candidates for training"""
@@ -196,8 +95,7 @@ class DenseAgents(object):
 			if self.batch_counter==self.batch_size:
 				self.train_networks_on_batch()
 
-
-	def predict(self,test_data):
+	def predict(self, test_data):
 		""" Random Sampling of messages and candidates for testing"""
 		self.testing_stats = []
 		total_reward = 0
@@ -214,10 +112,41 @@ class DenseAgents(object):
 											"message": message,
 											"chosen_target_idx": chosen_target_idx,
 											})
- 
 
-class DenseVisaAgents(DenseAgents):
-	""" Quick and dirty nheritance for Visa dataset """
+
+
+class RandomBaselineAgents(BaseAgents):
+	"""
+	Agents trained on random baseline dataset
+
+	Example
+	-------
+	from config import random_config_dict as config_dict
+	from data_generator import generate_dummy_categorical_dataset
+	from networks import RandomBaselineAgents
+	from rl.speaker_policy_networks import RandomSpeakerPolicyNetwork
+	from rl.listener_policy_networks import RandomListenerPolicyNetwork
+	
+	## Get training data
+	train_data = generate_dummy_categorical_dataset(config_dict,"training")
+
+	speaker = RandomSpeakerPolicyNetwork(config_dict)
+	listener = RandomListenerPolicyNetwork(config_dict)
+
+	## Initialize and train agent
+	rba = RandomBaselineAgents(config_dict, speaker, listener)
+	rba.fit(train_data)
+	"""
+	def __init__(self, config_dict, speaker, listener, save_training_stats=True, save_testing_stats=True):
+		super(RandomBaselineAgents, self).__init__(config_dict, speaker, listener, save_training_stats, save_testing_stats)
+
+
+
+class VisaAgents(BaseAgents):
+	""" Quick and dirty inheritance for Visa dataset """
+	def __init__(self, config_dict, speaker, listener, save_training_stats=True, save_testing_stats=True):
+		super(VisaAgents, self).__init__(config_dict, speaker, listener, save_training_stats, save_testing_stats)
+
 	def fit(self, data_generator):
 		""" Override fit method to use data_generator """
 		self.total_training_reward = 0
@@ -253,3 +182,5 @@ class DenseVisaAgents(DenseAgents):
 												"message": message,
 												"chosen_target_idx": chosen_target_idx,
 												})
+
+
