@@ -47,7 +47,7 @@ Topographical Similarity: -0.0022818464956945307
 ```
 We can see that the distribution of speaker and listener actions is relatively uniform. Random performance around 20%. 
 
-Run the Visa Dataset with MLP speaker and listener networks for 10000 batches:
+Run the Visa Dataset with MLP speaker and listener networks for 100 batches:
 ```
 python -m experiments.dense_visa_agents_experiments
 
