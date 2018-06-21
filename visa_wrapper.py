@@ -184,19 +184,18 @@ class VisaDatasetWrapper(object):
 
 	def testing_batch_generator(self):
 		""" """
-		for i in range(self.batch_size):
-			sampled_target_idx = self.sample_target_idx(dataset="testing")
-			distractors_idx = self.negatively_sample_distractors(sampled_target_idx, self.n_testing_rows, self.n_distractors)
+		for idx in range(self.n_testing_rows):
+			distractors_idx = self.negatively_sample_distractors(idx, self.n_testing_rows, self.n_distractors)
 
 			## Naive shuffling with record. TODO: improve..
 			rand_idx = np.random.randint(0, self.n_distractors+1)
 			candidate_idx_set = []
 			for dist_idx in distractors_idx:
-				if i==rand_idx:
-					candidate_idx_set.append(sampled_target_idx)
+				if idx==rand_idx:
+					candidate_idx_set.append(idx)
 				candidate_idx_set.append(dist_idx)
 
-			target = self.testing_set[sampled_target_idx]
+			target = self.testing_set[idx]
 			candidate_set = self.testing_set[candidate_idx_set]
 			y_label = self.categorical_label(rand_idx)
 			yield target, candidate_set, y_label

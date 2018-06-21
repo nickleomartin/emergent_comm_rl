@@ -29,7 +29,6 @@ class EpsilonGreedyMessagePolicy(BasePolicy):
 
 	egmp = EpsilonGreedyMessagePolicy()
 	egmp.select_action(probs,n_actions, m_length)
-
 	"""
 	def __init__(self, eps=0.1):
 		super(EpsilonGreedyMessagePolicy, self).__init__()

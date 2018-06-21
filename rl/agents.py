@@ -165,22 +165,22 @@ class VisaAgents(BaseAgents):
 		""" Random Sampling of messages and candidates for testing"""
 		self.testing_stats = []
 		total_reward = 0
-		for n in range(self.n_batches): 
-			print("Batch: %s of %s"%(n, self.n_batches))
-			batch = data_generator.testing_batch_generator()
-			for b in batch:
-				target_input, candidates, target_candidate_idx = b
-				message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
-				chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
-				reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
-				total_reward += reward
+		test_set = data_generator.testing_batch_generator()
+		test_size = data_generator.n_testing_rows
+		for i,test_example in enumerate(test_set):
+			print("Test Example: %s of %s"%(i+1,test_size))
+			target_input, candidates, target_candidate_idx = test_example
+			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
+			chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
+			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
+			total_reward += reward
 
-				if self.save_training_stats:
-					self.testing_stats.append({
-												"reward": reward,
-												"input": target_input,
-												"message": message,
-												"chosen_target_idx": chosen_target_idx,
-												})
+			if self.save_training_stats:
+				self.testing_stats.append({
+											"reward": reward,
+											"input": target_input,
+											"message": message,
+											"chosen_target_idx": chosen_target_idx,
+											})
 
 

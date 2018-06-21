@@ -12,6 +12,7 @@ from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 
 from rl.base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicyNetwork
+from rl.policy import EpsilonGreedyMessagePolicy
 
 
 class RandomListenerPolicyNetwork(BaseListenerPolicyNetwork):
@@ -67,6 +68,7 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
   """
   def __init__(self, config_dict):
     super(DenseListenerPolicyNetwork, self).__init__(config_dict)
+    self.policy = EpsilonGreedyMessagePolicy(eps=0.1)
 
   def initialize_model(self):
     """ 2 Layer fully-connected neural network """
@@ -91,7 +93,7 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
     normalized_probs = probs / np.sum(probs)
 
     ## TODO: Implement Policy class: EpsilonGreedy if training else np.argmax
-    action = np.random.choice(self.n_classes, 1, p=normalized_probs[0])[0]
+    action = self.policy.select_action(normalized_probs, self.n_classes,1)
     
     ## Return action and probs
     return action, normalized_probs
