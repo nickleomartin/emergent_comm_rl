@@ -71,11 +71,11 @@ class BaseAgents(object):
 		## Record training statistics
 		if self.save_training_stats:
 			self.training_stats.append({
-										"reward": reward,
-										"input": target_input,
-										"message": speaker_message,
-										"chosen_target_idx": listener_action
-										})
+					"reward": reward,
+					"input": target_input,
+					"message": speaker_message,
+					"chosen_target_idx": listener_action
+					})
 
 	def train_networks_on_batch(self):
 		""" Train Speaker and Listener network on batch """
@@ -105,13 +105,13 @@ class BaseAgents(object):
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
 
-			if self.save_training_stats:
+			if self.save_testing_stats:
 				self.testing_stats.append({
-											"reward": reward,
-											"input": target_input,
-											"message": message,
-											"chosen_target_idx": chosen_target_idx,
-											})
+						"reward": reward,
+						"input": target_input,
+						"message": message,
+						"chosen_target_idx": chosen_target_idx,
+						})
 
 
 
@@ -143,17 +143,39 @@ class RandomBaselineAgents(BaseAgents):
 
 
 class VisaAgents(BaseAgents):
-	""" Quick and dirty inheritance for Visa dataset """
-	def __init__(self, config_dict, speaker, listener, save_training_stats=True, save_testing_stats=True):
+	""" 
+	Agent for Visa dataset 
+
+	Example:
+	--------
+	from config import visa_config_dict as config_dict
+	from rl.agents import VisaAgents
+	from rl.speaker_policy_networks import DenseSpeakerPolicyNetwork
+	from rl.listener_policy_networks import DenseListenerPolicyNetwork
+	from visa_wrapper import VisaDatasetWrapper 
+
+	print("Get dataset")
+	data_generator = VisaDatasetWrapper()
+	data_generator.create_train_test_datasets(config_dict)
+
+	print("Train Agents")
+	speaker = DenseSpeakerPolicyNetwork(config_dict)
+	listener = DenseListenerPolicyNetwork(config_dict)
+	da = VisaAgents(config_dict,speaker,listener)
+	da.fit(data_generator)
+	"""
+	def __init__(self, config_dict, speaker, listener, save_training_stats=True, save_testing_stats=True, verbose=True):
 		super(VisaAgents, self).__init__(config_dict, speaker, listener, save_training_stats, save_testing_stats)
+		self.verbose = verbose
 
 	def fit(self, data_generator):
 		""" Override fit method to use data_generator """
 		self.total_training_reward = 0
 		self.batch_counter = 0
 
-		for n in range(self.n_batches): 
-			print("Batch: %s of %s"%(n,self.n_batches))
+		for n in range(self.n_batches):
+			if self.verbose:
+				print("Batch: %s of %s"%(n,self.n_batches))
 			batch = data_generator.training_batch_generator()
 			for b in batch:
 				target_input, candidates, target_candidate_idx = b
@@ -161,26 +183,50 @@ class VisaAgents(BaseAgents):
 				if self.batch_counter==self.batch_size:
 					self.train_networks_on_batch()
 
-	def predict(self, data_generator):
+	def evaluate_on_training_set(self, data_generator):
 		""" Random Sampling of messages and candidates for testing"""
-		self.testing_stats = []
+		self.training_eval_stats = []
 		total_reward = 0
-		test_set = data_generator.testing_batch_generator()
-		test_size = data_generator.n_testing_rows
-		for i,test_example in enumerate(test_set):
-			print("Test Example: %s of %s"%(i+1,test_size))
-			target_input, candidates, target_candidate_idx = test_example
+		training_eval_set = data_generator.training_set_evaluation_generator()
+		training_size = data_generator.n_training_rows
+		for i,train_example in enumerate(training_eval_set):
+			if self.verbose:
+				print("Training Example: %s of %s"%(i+1,training_size))
+			target_input, candidates, target_candidate_idx = train_example
 			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
 			chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
 
 			if self.save_training_stats:
+				self.training_eval_stats.append({
+						"reward": reward,
+						"input": target_input,
+						"message": message,
+						"chosen_target_idx": chosen_target_idx,
+						})
+
+	def predict(self, data_generator):
+		""" Loop through test set once """
+		self.testing_stats = []
+		total_reward = 0
+		test_set = data_generator.testing_set_generator()
+		test_size = data_generator.n_testing_rows
+		for i,test_example in enumerate(test_set):
+			if self.verbose:
+				print("Test Example: %s of %s"%(i+1,test_size))
+			target_input, candidates, target_candidate_idx = test_example
+			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
+			chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
+			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
+			total_reward += reward
+
+			if self.save_testing_stats:
 				self.testing_stats.append({
-											"reward": reward,
-											"input": target_input,
-											"message": message,
-											"chosen_target_idx": chosen_target_idx,
-											})
+						"reward": reward,
+						"input": target_input,
+						"message": message,
+						"chosen_target_idx": chosen_target_idx,
+						})
 
 

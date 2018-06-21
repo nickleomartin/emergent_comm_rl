@@ -17,7 +17,10 @@ listener = DenseListenerPolicyNetwork(config_dict)
 
 da = VisaAgents(config_dict,speaker,listener)
 da.fit(data_generator)
-#obtain_metrics(da.training_stats, config_dict)
+
+print("Evaulating on training set")
+da.evaluate_on_training_set(data_generator)
+obtain_metrics(da.training_eval_stats, config_dict)
 
 print("Evaluate Agent Generalisation")
 da.predict(data_generator)

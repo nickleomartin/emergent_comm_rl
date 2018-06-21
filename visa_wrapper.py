@@ -47,17 +47,13 @@ class VisaDatasetWrapper(object):
 		self.concept_dict = {}
 
 		for xml_file_name in self.xml_file_names:
-			
 			## Get file name
 			file_category_name = self.get_category_name_from_file(xml_file_name)
 			print("Reading in XML file for %s"%file_category_name)
-
 			## Parse ElementTree
 			tree = ET.parse(xml_file_name)
-
 			## Get root of tree
 			root = tree.getroot()
-
 			## Define category's dict
 			self.concept_dict[file_category_name] = {} 
 
@@ -114,14 +110,9 @@ class VisaDatasetWrapper(object):
 				vect[attr_indices] = 1.
 				self.symbolic_vectors.append(vect)
 
-	def sample_target_idx(self, dataset="training"):
-		""" """
-		if dataset=="training":
-			return np.random.randint(0, self.n_training_rows)
-
-		elif dataset=="testing":
-			return np.random.randint(0, self.n_testing_rows)
-
+	def sample_target_idx(self):
+		""" Randomly sample training target idx"""
+		return np.random.randint(0, self.n_training_rows)
 
 	def negatively_sample_distractors(self, target_idx, n_dataset_rows, n_distractors):
 		""" Negatively sample n_distractors """
@@ -139,6 +130,7 @@ class VisaDatasetWrapper(object):
 		self.n_distractors = config_dict["n_distractors"]
 
 		## TODO: Set random seed
+		np.random.seed(0)
 
 		## TODO: Add comments
 		self.create_concept_dictionary()
@@ -163,9 +155,9 @@ class VisaDatasetWrapper(object):
 		return l
 
 	def training_batch_generator(self):
-		""" """
+		""" Generate batches sampled from training set"""
 		for i in range(self.batch_size):
-			sampled_target_idx = self.sample_target_idx(dataset="training")
+			sampled_target_idx = self.sample_target_idx()
 			distractors_idx = self.negatively_sample_distractors(sampled_target_idx, self.n_training_rows, self.n_distractors)
 
 			## Naive shuffling with record. TODO: improve..
@@ -181,9 +173,26 @@ class VisaDatasetWrapper(object):
 			y_label = self.categorical_label(rand_idx)
 			yield target, candidate_set, y_label
 
+	def training_set_evaluation_generator(self):
+		""" Loop once through training set """
+		for idx in range(self.n_training_rows):
+			distractors_idx = self.negatively_sample_distractors(idx, self.n_training_rows, self.n_distractors)
 
-	def testing_batch_generator(self):
-		""" """
+			## Naive shuffling with record. TODO: improve..
+			rand_idx = np.random.randint(0, self.n_distractors+1)
+			candidate_idx_set = []
+			for dist_idx in distractors_idx:
+				if idx==rand_idx:
+					candidate_idx_set.append(idx)
+				candidate_idx_set.append(dist_idx)
+
+			target = self.training_set[idx]
+			candidate_set = self.training_set[candidate_idx_set]
+			y_label = self.categorical_label(rand_idx)
+			yield target, candidate_set, y_label
+
+	def testing_set_generator(self):
+		""" Loop once through testing set """
 		for idx in range(self.n_testing_rows):
 			distractors_idx = self.negatively_sample_distractors(idx, self.n_testing_rows, self.n_distractors)
 

@@ -74,7 +74,7 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
   """
   def __init__(self, config_dict):
     super(DenseSpeakerPolicyNetwork, self).__init__(config_dict)
-    self.policy = EpsilonGreedyMessagePolicy(eps=0.1)
+    self.policy = EpsilonGreedyMessagePolicy(eps=0.1) ## TODO: add as parameter later...
 
   def initialize_model(self):
     """ 2 Layer fully-connected neural network """
@@ -92,25 +92,21 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
     t_input = self.reshape_target(target_input)
     probs = self.speaker_model.predict_on_batch(t_input)
     normalized_probs = probs / np.sum(probs)
-
     ## Epsilon greedy policy
     speaker_message = self.policy.select_action(normalized_probs, self.alphabet_size, self.max_message_length)
-    
     ## Return action and probs
     return speaker_message, normalized_probs
 
   def remember_speaker_training_details(self, target_input, action, speaker_probs, reward):
     """ Store inputs and outputs needed for training """
+    ## Store
     self.batch_target_inputs.append(target_input) 
     self.batch_actions.append(action)
     self.batch_rewards.append(reward)
     self.batch_probs.append(speaker_probs)
-
     y = np.zeros(self.alphabet_size)
-
     for i in range(self.max_message_length):
       y[action[i]] = 1
-
     gradients = np.array(y).astype("float32") - speaker_probs
     self.batch_gradients.append(gradients)
 
@@ -118,25 +114,18 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
     """ Update speaker policy given rewards """
     ## Calculate gradients = action - probs
     gradients = np.vstack(self.batch_gradients)
-
     ## Batch standardise rewards. Note: no discounting of rewards
     rewards = np.vstack(self.batch_rewards)
-
     if np.count_nonzero(rewards)>0:
       rewards = rewards / np.std(rewards - np.mean(rewards)) ## TODO: Handle zero rewards
-
     ## Calculate gradients * rewards
     gradients *= rewards
-
     ## Create X
     X = np.vstack([self.batch_target_inputs])
-
     ## Create Y = probs + lr * gradients
     Y = np.squeeze(np.array(self.batch_probs)) + self.speaker_lr * np.squeeze(np.vstack([gradients]))
-
     ## Train model
     self.speaker_model.train_on_batch(X, Y)
-
     ## Reset batch memory
     self.batch_target_inputs, self.batch_actions, \
     self.batch_rewards, self.batch_gradients, \
@@ -147,12 +136,10 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
     ## Get symbol probabilities given target input
     probs = self.speaker_model.predict_on_batch(self.reshape_target(target_input))
     normalized_probs = probs/np.sum(probs)
-
     ## Greedily get symbols with largest probabilities
     message_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
     message_probs = normalized_probs[0][message_indices]
     message = message_indices
-
     ## TODO: Also return sum[log prob () mi | target input and weights)]??
     return message, message_probs
 

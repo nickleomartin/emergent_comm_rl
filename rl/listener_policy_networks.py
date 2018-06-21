@@ -68,7 +68,7 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
   """
   def __init__(self, config_dict):
     super(DenseListenerPolicyNetwork, self).__init__(config_dict)
-    self.policy = EpsilonGreedyMessagePolicy(eps=0.1)
+    self.policy = EpsilonGreedyMessagePolicy(eps=0.1) ## TODO: add as parameter later...
 
   def initialize_model(self):
     """ 2 Layer fully-connected neural network """
@@ -91,35 +91,26 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
     m = self.one_hot_encode_message(speaker_message)
     probs = self.listener_model.predict_on_batch(m)
     normalized_probs = probs / np.sum(probs)
-
     ## TODO: Implement Policy class: EpsilonGreedy if training else np.argmax
     action = self.policy.select_action(normalized_probs, self.n_classes,1)
-    
     ## Return action and probs
     return action, normalized_probs
 
   def train_listener_policy_on_batch(self):
     """ Update listener policy given rewards """
     gradients = np.vstack(self.batch_gradients)
-
     ## Batch standardise rewards. Note: no discounting of rewards
     rewards = np.vstack(self.batch_rewards)
-
     if np.count_nonzero(rewards)>0:
       rewards = rewards / np.std(rewards - np.mean(rewards))
-
     ## Calculate gradients * rewards
     gradients *= rewards
-
     ## Create X
     X = np.squeeze(np.vstack([self.batch_messages]),axis=1)
-
     ## Create Y = probs + lr * gradients
     Y = np.squeeze(np.array(self.batch_probs)) + self.listener_lr * np.squeeze(np.vstack([gradients]))
-
     ## Train model
     self.listener_model.train_on_batch(X, Y)
-
     ## Reset batch memory
     self.batch_messages, self.batch_actions, \
     self.batch_rewards, self.batch_gradients, \
@@ -128,12 +119,11 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
   def remember_listener_training_details(self, speaker_message, action, listener_probs, reward):
     """ Store inputs and outputs needed for training """
     m = self.one_hot_encode_message(speaker_message)
-
+    ## Store 
     self.batch_messages.append(m) 
     self.batch_actions.append(action)
     self.batch_rewards.append(reward)
     self.batch_probs.append(listener_probs)
-
     gradients = np.array(action).astype("float32") - listener_probs
     self.batch_gradients.append(gradients)
 
@@ -141,10 +131,9 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
     """ Randomly choose a target for now ! """
     ## Get symbol probabilities given target input
     m = self.one_hot_encode_message(speaker_message)
-
+    ## Predict on batch
     probs = self.listener_model.predict_on_batch(m)
     normalized_probs = probs/np.sum(probs)
-
     ## Greedily get symbols with largest probabilities
     target_idx = np.argmax(normalized_probs)
     return target_idx

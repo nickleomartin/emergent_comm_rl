@@ -58,10 +58,6 @@ def obtain_metrics(training_stats, config_dict):
 	metrics['accuracy'] = task_accuracy_metrics(reward_list)
 
 	## Speaker action distribution 
-	action_list = [e["chosen_target_idx"] for e in training_stats]
-	metrics["listener_action_dist"] = action_distribution(action_list)
-	print("Listener action distribution: %s"%(metrics["listener_action_dist"]))
-
 	message_list = []
 	for e in training_stats:
 		for m in e["message"]:
@@ -69,6 +65,11 @@ def obtain_metrics(training_stats, config_dict):
 
 	metrics["speaker_action_dist"] = action_distribution(message_list)
 	print("Speaker action distribution: %s"%(metrics["speaker_action_dist"]))
+
+	## Listener action distribution
+	action_list = [e["chosen_target_idx"] for e in training_stats]
+	metrics["listener_action_dist"] = action_distribution(action_list)
+	print("Listener action distribution: %s"%(metrics["listener_action_dist"]))
 
 	## Topographic similarity
 	input_vectors = [e['input'] for e in training_stats]
