@@ -70,17 +70,15 @@ V1: Random Baseline
 - [x] Basic training pipeline
 - [x] Evaluation on novel inputs 
 - [x] Evaluation using topographical similarity
-- [ ] Jupyter notebook explaining random baseline
 
-V2: Dense Agents
-- [x] Listener policy network
-- [x] Speaker policy network
-- [x] Random dataset baseline
-- [ ] Jupyter notebook explaining DenseAgent random baseline
-
-V3: Symbolic Input Experiment
+V2: Symbolic Input: MLP/Dense Agents
 - [x] Download [Visual Attributes of Concepts dataset](http://homepages.inf.ed.ac.uk/s1151656/resources.html)
 - [x] Preprocess symbolic input dataset
+- [x] Listener policy network
+- [x] Speaker policy network
+- [x] Experiments on symbolic input dataset
+
+V3: Symbolic Input: Models from paper
 - [ ] Listener model from paper
 - [ ] Speaker model from paper 
 - [ ] Experiments on symbolic input dataset
