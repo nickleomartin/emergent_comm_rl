@@ -50,15 +50,16 @@ python -m experiments.dense_visa_agents_experiments
 
 Getting dataset
 Training Agents
-Total Reward: 78, Accuracy: 19.164619164619165 %
-Speaker action distribution: Counter({49: 407, 2: 407})
-Listener action distribution: Counter({3: 407})
-Topographical Similarity: -0.1389730850824681
+Total Reward: 84, Accuracy: 20.63882063882064 %
+Speaker action distribution: Counter({25: 407, 18: 407})
+Listener action distribution: Counter({0: 407})
+Topographical Similarity: 0.06759830381841883
+
 Evaluate Agent Generalisation
-Total Reward: 22, Accuracy: 21.568627450980394 %
-Speaker action distribution: Counter({49: 102, 2: 102})
-Listener action distribution: Counter({3: 102})
-Topographical Similarity: -0.14877997797398487
+Total Reward: 16, Accuracy: 15.686274509803921 %
+Speaker action distribution: Counter({25: 102, 18: 102})
+Listener action distribution: Counter({0: 102})
+Topographical Similarity: 0.1005088994156145
 ```
 We can see that under-trained agents exhibit degenerative policies by sticking to one or two actions irrespective of the inputs. The small topographical similarity suggests that there is negligible correlation between the message similarities and the input vector distances.
 
