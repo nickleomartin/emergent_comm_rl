@@ -28,12 +28,12 @@ Running Experiments
 -------------------
 Run the random baseline with RandomAgents:
 ```
-python -m random_agent_experiments.py
+python -m experiments.random_agent_experiments
 ```
 
 Run the random baseline with DenseAgents:
 ```
-python -m dense_agents_experiments.py
+python -m experiments.dense_agents_experiments
 ```
 
 To-Do

@@ -21,7 +21,7 @@ class EpsilonGreedyMessagePolicy(BasePolicy):
 	Example:
 	--------
 	import numpy as np
-	from rl.policy import EpsilonGreedyMessagePolicy
+	from policy import EpsilonGreedyMessagePolicy
 	
 	probs = np.array([[0.1,0.2,0.3,0.1,0.1,0.2]])
 	n_actions = 2

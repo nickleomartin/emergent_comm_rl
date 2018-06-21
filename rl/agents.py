@@ -21,7 +21,7 @@ class RandomAgent(object):
 	-------
 	from config import config_dict
 	from data_generator import generate_dummy_data
-	from rl.agents import RandomAgent
+	from networks import RandomAgent
 	
 	## Get training data
 	train_data = generate_dummy_data()
@@ -107,7 +107,7 @@ class DenseAgents(object):
 	-------
 	from config import config_dict
 	from data_generator import generate_dummy_data
-	from rl.agents import RandomAgent
+	from networks import RandomAgent
 	
 	## Get training data
 	train_data = generate_dummy_data()

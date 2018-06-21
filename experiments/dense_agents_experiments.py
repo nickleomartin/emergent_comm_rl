@@ -1,8 +1,8 @@
 from config import config_dict
 from data_generator import generate_dummy_categorical_dataset
+from agents import DenseAgents
 from evaluation import obtain_metrics
-from rl.agents import DenseAgents
-from rl.policy_networks import DenseListenerPolicyNetwork, DenseSpeakerPolicyNetwork
+from policy_networks import DenseListenerPolicyNetwork, DenseSpeakerPolicyNetwork
 
 
 """ Create data """

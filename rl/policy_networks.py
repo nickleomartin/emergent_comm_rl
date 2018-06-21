@@ -11,7 +11,7 @@ from keras.optimizers import RMSprop
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 
-from rl.base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicyNetwork
+from base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicyNetwork
 
 
 class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
@@ -20,7 +20,7 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
 	Example:
 	--------
 	from config import config_dict
-	from rl.policy_networks import DenseSpeakerPolicyNetwork
+	from networks import DenseSpeakerPolicyNetwork
 	
 	speaker = DenseSpeakerPolicyNetwork(config_dict)
 	"""
