@@ -33,7 +33,7 @@ python -m experiments.random_agent_experiments
 
 Run the random baseline with DenseAgents:
 ```
-python -m experiments.dense_agents_experiments
+python -m experiments.dense_visa_agents_experiments
 ```
 
 To-Do
