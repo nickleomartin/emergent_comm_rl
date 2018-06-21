@@ -2,26 +2,30 @@ import os
 import glob
 import numpy as np
 import xml.etree.ElementTree as ET 
-
-
-
+from keras.utils.np_utils import to_categorical
 
 class VisaDatasetWrapper(object):
 	""" 
-	Handles retrieval and creatiom of Visa Dataset 
+	Handles retrieval and creation of Visa Dataset 
 	
 	Example:
 	--------
+	from config import config_dict
 	from visa_wrapper import VisaDatasetWrapper
 
 	vdw = VisaDatasetWrapper()
-	training_set, test_set = vdw.create_train_test_datasets()
+	vdw.create_train_test_datasets(config_dict)
+	b1 = vdw.training_batch_generator()
 
+	for b in b1:
+		i,j,k = b
+		print(i,j,k)
 	"""
 	def __init__(self, dataset_dir="visa_dataset",file_extension=".xml", ):
 		self.dataset_dir = dataset_dir
 		self.file_extension = file_extension
 		self.attribute_list = []
+		self.concept_list = []
 		self.attribute_to_id_dict = {}
 		self.id_to_attribute_dict = {}
 		self.retrieve_xml_file_names()
@@ -72,6 +76,7 @@ class VisaDatasetWrapper(object):
 					## Add list of attributes for concept
 					concept_name = subcategory.attrib["name"]
 					self.concept_dict[file_category_name][concept_name] = concept_attributes
+					self.concept_list.append(concept_name)
 				else:
 					for concept in subcategory:
 						concept_attributes = []
@@ -86,6 +91,7 @@ class VisaDatasetWrapper(object):
 						## Add list of attributes for concept
 						concept_name = concept.attrib["name"] 
 						self.concept_dict[file_category_name][concept_name] = concept_attributes
+						self.concept_list.append(concept_name)
 
 	def create_symbolic_attribute_vectors(self):
 		""" """
@@ -98,7 +104,6 @@ class VisaDatasetWrapper(object):
 
 		## Binary vectors
 		self.symbolic_vectors = []
-		self.concept_list = []
 		n_attributes = len(self.attribute_list)
 
 		for category, subcategory in self.concept_dict.items():
@@ -108,23 +113,91 @@ class VisaDatasetWrapper(object):
 				attr_indices = [self.attribute_to_id_dict[item] for item in items]
 				vect[attr_indices] = 1.
 				self.symbolic_vectors.append(vect)
-				self.concept_list.append(subcategory)
+
+	def sample_target_idx(self, dataset="training"):
+		""" """
+		if dataset=="training":
+			return np.random.randint(0, self.n_training_rows)
+
+		elif dataset=="testing":
+			return np.random.randint(0, self.n_testing_rows)
 
 
-	def create_train_test_datasets(self):
+	def negatively_sample_distractors(self, target_idx, n_dataset_rows, n_distractors):
+		""" Negatively sample n_distractors """
+		distractors_idx = []
+		while len(distractors_idx) < n_distractors:
+			sampled_idx = np.random.randint(0, n_dataset_rows)
+			if sampled_idx!=target_idx:
+				distractors_idx.append(sampled_idx)
+		return distractors_idx
+
+	def create_train_test_datasets(self, config_dict):
 		""" Randomly split dataset into train and test sets """
+		self.config_dict = config_dict
+		self.batch_size = config_dict["batch_size"]
+		self.n_distractors = config_dict["n_distractors"]
+
 		## TODO: Set random seed
 
 		## TODO: Add comments
 		self.create_concept_dictionary()
 		self.create_symbolic_attribute_vectors()
 
+		## Add test-train split parameter 
+		self.train_split_percent = config_dict["train_split_percent"] 
+		self.n_dataset_rows = len(self.concept_list)
+		self.n_training_rows = int(round(self.n_dataset_rows*self.train_split_percent, 0))
+		self.n_testing_rows = self.n_dataset_rows - self.n_training_rows
+
 		## Generate random indixes to partition train and test set
 		indices = np.random.permutation(len(self.symbolic_vectors))
-		training_indices, test_indices = indices[:400], indices[400:]
-		training_set = [self.symbolic_vectors[idx] for idx in training_indices]
-		testing_set = [self.symbolic_vectors[idx] for idx in test_indices]
-		return training_set, testing_set
+		training_indices, test_indices = indices[:self.n_training_rows], indices[self.n_training_rows:]
+		self.training_set = np.array([self.symbolic_vectors[idx] for idx in training_indices])
+		self.testing_set = np.array([self.symbolic_vectors[idx] for idx in test_indices])
+
+	def categorical_label(self, label):
+		""" Convert scalar idx into array """
+		l = np.zeros(self.n_distractors+1)
+		l[label] = 1.
+		return l
+
+	def training_batch_generator(self):
+		""" """
+		for i in range(self.batch_size):
+			sampled_target_idx = self.sample_target_idx(dataset="training")
+			distractors_idx = self.negatively_sample_distractors(sampled_target_idx, self.n_training_rows, self.n_distractors)
+
+			## Naive shuffling with record. TODO: improve..
+			rand_idx = np.random.randint(0, self.n_distractors+1)
+			candidate_idx_set = []
+			for dist_idx in distractors_idx:
+				if i==rand_idx:
+					candidate_idx_set.append(sampled_target_idx)
+				candidate_idx_set.append(dist_idx)
+
+			target = self.training_set[sampled_target_idx]
+			candidate_set = self.training_set[candidate_idx_set]
+			y_label = self.categorical_label(rand_idx)
+			yield target, candidate_set, y_label
 
 
+	def testing_batch_generator(self):
+		""" """
+		for i in range(self.batch_size):
+			sampled_target_idx = self.sample_target_idx(dataset="testing")
+			distractors_idx = self.negatively_sample_distractors(sampled_target_idx, self.n_testing_rows, self.n_distractors)
+
+			## Naive shuffling with record. TODO: improve..
+			rand_idx = np.random.randint(0, self.n_distractors+1)
+			candidate_idx_set = []
+			for dist_idx in distractors_idx:
+				if i==rand_idx:
+					candidate_idx_set.append(sampled_target_idx)
+				candidate_idx_set.append(dist_idx)
+
+			target = self.testing_set[sampled_target_idx]
+			candidate_set = self.testing_set[candidate_idx_set]
+			y_label = self.categorical_label(rand_idx)
+			yield target, candidate_set, y_label
 

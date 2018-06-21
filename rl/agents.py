@@ -138,6 +138,7 @@ class DenseAgents(object):
 		self.training_epoch = self.config_dict['training_epoch']
 		self.batch_size = self.config_dict['batch_size']
 		self.n_classes = self.config_dict['n_distractors'] + 1
+		self.n_batches = self.config_dict['n_batches']
 
 	def calculate_reward(self, chosen_target_idx, target_candidate_idx):
 		""" Determine reward given indices """
@@ -151,7 +152,6 @@ class DenseAgents(object):
 
 		## Sample from speaker
 		speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
-		# print("Message: %s, Probs: %s"%(speaker_message, speaker_probs))
 
 		## Sample from listener
 		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(speaker_message, candidates)
@@ -161,7 +161,7 @@ class DenseAgents(object):
 
 		## Store batch inputs and outputs
 		self.speaker_model.remember_speaker_training_details(target_input, speaker_message, speaker_probs, reward)
-		self.listener_model.remember_listener_training_details(target_input, listener_action, listener_probs, reward)
+		self.listener_model.remember_listener_training_details(speaker_message, listener_action, listener_probs, reward)
 
 		## Increment batch statistics
 		self.total_training_reward += reward
@@ -181,10 +181,8 @@ class DenseAgents(object):
 		""" Train Speaker and Listener network on batch """
 		## Train speaker model 
 		self.speaker_model.train_speaker_policy_on_batch()
-
 		## Train listener model
 		self.listener_model.train_listener_policy_on_batch()
-
 		## Reset batch counter
 		self.batch_counter = 0
 
@@ -193,13 +191,8 @@ class DenseAgents(object):
 		""" Random Sampling of messages and candidates for training"""
 		self.total_training_reward = 0
 		self.batch_counter = 0
-
-		# len_training_set = len(train_data)
-
 		for target_input, candidates, target_candidate_idx in train_data:
-
 			self.sample_from_networks_on_batch(target_input, candidates, target_candidate_idx)
-
 			if self.batch_counter==self.batch_size:
 				self.train_networks_on_batch()
 
@@ -210,8 +203,6 @@ class DenseAgents(object):
 		total_reward = 0
 		for target_input, candidates, target_candidate_idx in test_data:
 			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
-			# print("Message: %s, Probs: %s"%(message,message_probs))
-
 			chosen_target_idx = self.listener_model.infer_from_listener_policy(message,candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
@@ -224,3 +215,41 @@ class DenseAgents(object):
 											"chosen_target_idx": chosen_target_idx,
 											})
  
+
+class DenseVisaAgents(DenseAgents):
+	""" Quick and dirty nheritance for Visa dataset """
+	def fit(self, data_generator):
+		""" Override fit method to use data_generator """
+		self.total_training_reward = 0
+		self.batch_counter = 0
+
+		for n in range(self.n_batches): 
+			print("Batch: %s of %s"%(n,self.n_batches))
+			batch = data_generator.training_batch_generator()
+			for b in batch:
+				target_input, candidates, target_candidate_idx = b
+				self.sample_from_networks_on_batch(target_input, candidates, target_candidate_idx)
+				if self.batch_counter==self.batch_size:
+					self.train_networks_on_batch()
+
+	def predict(self, data_generator):
+		""" Random Sampling of messages and candidates for testing"""
+		self.testing_stats = []
+		total_reward = 0
+		for n in range(self.n_batches): 
+			print("Batch: %s of %s"%(n, self.n_batches))
+			batch = data_generator.testing_batch_generator()
+			for b in batch:
+				target_input, candidates, target_candidate_idx = b
+				message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
+				chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
+				reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
+				total_reward += reward
+
+				if self.save_training_stats:
+					self.testing_stats.append({
+												"reward": reward,
+												"input": target_input,
+												"message": message,
+												"chosen_target_idx": chosen_target_idx,
+												})

@@ -22,3 +22,4 @@ def generate_dummy_categorical_dataset(config_dict, dataset="training"):
 
 	## Return zipped object
 	return zip(targets, candidate_sets, labels)
+
