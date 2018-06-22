@@ -16,52 +16,6 @@ from rl.base_policy_networks import BaseSpeakerPolicyNetwork
 from rl.policy import EpsilonGreedyMessagePolicy
 
 
-class RandomSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
-  """ 
-  Random speaker policy model 
-  
-  Example:
-  --------
-  from config import random_config_dict as config_dict
-  from rl.speaker_policy_networks import RandomSpeakerPolicyNetwork
-  
-  speaker = RandomSpeakerPolicyNetwork(config_dict)
-  """
-  def __init__(self, config_dict):
-    super(RandomSpeakerPolicyNetwork, self).__init__(config_dict)
-
-  def sample_speaker_policy_for_message(self, target_input):
-    """ Sample message of length self.max_message_length from speaker policy """ 
-    speaker_message = [np.random.choice(range(self.alphabet_size)) for i in range(self.max_message_length)]
-    probs = np.array([1/float(self.alphabet_size)]*self.alphabet_size)
-    return speaker_message, probs
-
-  def remember_speaker_training_details(self, target_input, action, speaker_probs, reward):
-    """ Store inputs and outputs needed for training """
-    self.batch_target_inputs.append(target_input) 
-    self.batch_actions.append(action)
-    self.batch_rewards.append(reward)
-    self.batch_probs.append(speaker_probs)
-    y = np.zeros(self.alphabet_size)
-    for i in range(self.max_message_length):
-      y[action[i]] = 1
-    gradients = np.array(y).astype("float32") - speaker_probs
-    self.batch_gradients.append(gradients)
-
-  def train_speaker_policy_on_batch(self):
-    """ Update speaker policy given rewards """
-    ## Reset batch memory
-    self.batch_target_inputs, self.batch_actions, \
-    self.batch_rewards, self.batch_gradients, \
-    self.batch_probs = [], [], [], [], []
-
-  def infer_from_speaker_policy(self, target_input):
-    """ Obtain message from speaker policy """
-    speaker_message = [np.random.choice(range(self.alphabet_size)) for i in range(self.max_message_length)]
-    probs = np.array([1/float(self.alphabet_size)]*self.alphabet_size)
-    return speaker_message, probs
-
-
 class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
   """ 
   Fully connected speaker policy model 
@@ -150,4 +104,41 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
     """ Reshape target_input to (1, input_dim) """
     return target_input.reshape([1,self.speaker_dim])
 
+
+
+
+
+class RandomSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
+  """ 
+  Random speaker policy model 
+  
+  Example:
+  --------
+  from config import random_config_dict as config_dict
+  from rl.speaker_policy_networks import RandomSpeakerPolicyNetwork
+  
+  speaker = RandomSpeakerPolicyNetwork(config_dict)
+  """
+  def __init__(self, config_dict):
+    super(RandomSpeakerPolicyNetwork, self).__init__(config_dict)
+
+  def sample_from_speaker_policy(self, target_input):
+    """ Sample message of length self.max_message_length from speaker policy """ 
+    speaker_message = [np.random.choice(range(self.alphabet_size)) for i in range(self.max_message_length)]
+    probs = np.array([1/float(self.alphabet_size)]*self.alphabet_size)
+    return [speaker_message], probs
+
+  def remember_speaker_training_details(self, target_input, action, speaker_probs, reward):
+    """ Store inputs and outputs needed for training """
+    pass
+
+  def train_speaker_policy_on_batch(self):
+    """ Update speaker policy given rewards """
+    pass
+
+  def infer_from_speaker_policy(self, target_input):
+    """ Obtain message from speaker policy """
+    speaker_message = [np.random.choice(range(self.alphabet_size)) for i in range(self.max_message_length)]
+    probs = np.array([1/float(self.alphabet_size)]*self.alphabet_size)
+    return [speaker_message], probs
 

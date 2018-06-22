@@ -50,25 +50,18 @@ class BaseAgents(object):
 			return 0
 
 	def sample_from_networks_on_batch(self, target_input, candidates, target_candidate_idx):
-
 		## Sample from speaker
-		# speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
 		speaker_message, speaker_probs = self.speaker_model.sample_from_speaker_policy(target_input)
-
 		## Sample from listener
 		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(speaker_message, candidates)
-
 		## Calculate reward
 		reward = self.calculate_reward(listener_action, target_candidate_idx)
-
 		## Store batch inputs and outputs
 		self.speaker_model.remember_speaker_training_details(target_input, speaker_message, speaker_probs, reward)
 		self.listener_model.remember_listener_training_details(speaker_message, listener_action, listener_probs, candidates, reward)
-
 		## Increment batch statistics
 		self.total_training_reward += reward
 		self.batch_counter += 1
-
 		## Record training statistics
 		if self.save_training_stats:
 			self.training_stats.append({
@@ -145,7 +138,7 @@ class RandomBaselineAgents(BaseAgents):
 
 class VisaAgents(BaseAgents):
 	""" 
-	Agent for Visa dataset 
+	Agents for Visa dataset  
 
 	Example:
 	--------
@@ -185,7 +178,7 @@ class VisaAgents(BaseAgents):
 					self.train_networks_on_batch()
 
 	def evaluate_on_training_set(self, data_generator):
-		""" Random Sampling of messages and candidates for testing"""
+		""" Determine performance on training set """
 		self.training_eval_stats = []
 		total_reward = 0
 		training_eval_set = data_generator.training_set_evaluation_generator()
@@ -208,7 +201,7 @@ class VisaAgents(BaseAgents):
 						})
 
 	def predict(self, data_generator):
-		""" Loop through test set once """
+		""" Determine performance on training set """
 		self.testing_stats = []
 		total_reward = 0
 		test_set = data_generator.testing_set_generator()

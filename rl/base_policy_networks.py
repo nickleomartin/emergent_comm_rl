@@ -4,6 +4,12 @@
 
 class BasePolicyNetwork(object):
 	""" Abstract policy network """
+	def __init__(self, config_dict):
+		self.config_dict = config_dict
+		self.batch_target_inputs = []
+		self.batch_rewards = []
+		self.batch_actions = []
+		self.batch_probs = []
 
 	def initialize_parameters(self):
 		assert self.config_dict, "self.config_dict does not exist"
@@ -27,13 +33,8 @@ class BasePolicyNetwork(object):
 class BaseSpeakerPolicyNetwork(BasePolicyNetwork):
 	""" Abstraction of Speaker Network """
 	def __init__(self, config_dict):
-		super(BaseSpeakerPolicyNetwork, self).__init__()
-		self.config_dict = config_dict
+		super(BaseSpeakerPolicyNetwork, self).__init__(config_dict)
 		self.batch_target_inputs = []
-		self.batch_rewards = []
-		self.batch_actions = []
-		self.batch_probs = []
-		self.batch_gradients = []
 		self.initialize_parameters()
 		self.initialize_model()
 
@@ -53,17 +54,14 @@ class BaseSpeakerPolicyNetwork(BasePolicyNetwork):
 		""" Obtain message from speaker policy """
 		pass
 
+
+
 class BaseListenerPolicyNetwork(BasePolicyNetwork):
 	""" Abstraction of Listner Network """
 	def __init__(self, config_dict):
-		super(BaseListenerPolicyNetwork, self).__init__()
-		self.config_dict = config_dict
+		super(BaseListenerPolicyNetwork, self).__init__(config_dict)
 		self.batch_messages = []
 		self.batch_candidates = []
-		self.batch_rewards = []
-		self.batch_actions = []
-		self.batch_probs = []
-		self.batch_gradients = []
 		self.initialize_parameters()
 		self.initialize_model()
 

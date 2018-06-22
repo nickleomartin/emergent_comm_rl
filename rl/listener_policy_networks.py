@@ -16,47 +16,6 @@ from rl.base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicy
 from rl.policy import EpsilonGreedyMessagePolicy
 
 
-class RandomListenerPolicyNetwork(BaseListenerPolicyNetwork):
-  """ 
-  Random listener policy model 
-  
-  Example:
-  --------
-  from config import random_config_dict as config_dict
-  from rl.listener_policy_networks import RandomListenerPolicyNetwork
-  
-  listener = RandomListenerPolicyNetwork(config_dict)
-  """
-  def __init__(self, config_dict):
-    super(RandomListenerPolicyNetwork, self).__init__(config_dict)
-
-  def sample_from_listener_policy(self, speaker_message, candidates):
-    """ Sample message of length self.max_message_length from speaker policy """ 
-    return np.random.randint(len(candidates)), np.array([1/float(len(candidates))]*len(candidates))
-
-  def remember_listener_training_details(self,  speaker_message, action, listener_probs, candidates, reward):
-    """ Store inputs and outputs needed for training """
-    self.batch_messages.append(speaker_message) 
-    self.batch_candidates.append(candidates)
-    self.batch_actions.append(action)
-    self.batch_rewards.append(reward)
-    self.batch_probs.append(listener_probs)
-    gradients = np.array(action).astype("float32") - listener_probs
-    self.batch_gradients.append(gradients)
-
-  def train_listener_policy_on_batch(self):
-    """ Update speaker policy given rewards """
-    ## Reset batch memory
-    self.batch_messages, self.batch_actions, \
-    self.batch_rewards, self.batch_gradients, \
-    self.batch_probs, self.batch_candidates = [], [], [], [], [], []
-
-  def infer_from_listener_policy(self, speaker_message, candidates):
-    """ Obtain message from speaker policy """
-    return np.random.randint(len(candidates))
-
-
-
 class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
   """ 
   Fully connected listener policy model 
@@ -184,3 +143,37 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
     self.trial_action = action 
     self.trail_candidates = candidates
     self.trial_reward = reward 
+
+
+
+
+
+class RandomListenerPolicyNetwork(BaseListenerPolicyNetwork):
+  """ 
+  Random listener policy model 
+  
+  Example:
+  --------
+  from config import random_config_dict as config_dict
+  from rl.listener_policy_networks import RandomListenerPolicyNetwork
+  
+  listener = RandomListenerPolicyNetwork(config_dict)
+  """
+  def __init__(self, config_dict):
+    super(RandomListenerPolicyNetwork, self).__init__(config_dict)
+
+  def sample_from_listener_policy(self, speaker_message, candidates):
+    """ Sample message of length self.max_message_length from speaker policy """ 
+    return [np.random.randint(len(candidates))], np.array([1/float(len(candidates))]*len(candidates))
+
+  def remember_listener_training_details(self,  speaker_message, action, listener_probs, candidates, reward):
+    """ Store inputs and outputs needed for training """
+    pass
+
+  def train_listener_policy_on_batch(self):
+    """ Update speaker policy given rewards """
+    pass
+
+  def infer_from_listener_policy(self, speaker_message, candidates):
+    """ Obtain message from speaker policy """
+    return [np.random.randint(len(candidates))]

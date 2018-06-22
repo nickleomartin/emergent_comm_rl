@@ -11,7 +11,7 @@ def task_accuracy_metrics(reward_list):
 	return accuracy
 
 def action_distribution(action_list):
-	print("action list: ", action_list)
+	print(action_list)
 	counter = collections.Counter(action_list)
 	return counter
 
@@ -20,7 +20,12 @@ def levenshtein_message_distance(m1, m2):
 	return levenshtein.distance(m1,m2) 
 
 def message_sequence_to_alphabet(message, alphabet):
-	return "".join(alphabet[int(idx)] for idx in message)
+	if type(message[0]) is np.int64:
+		return alphabet[int(message[0])]		
+	elif type(message[0]) is list:
+		return "".join(alphabet[int(idx)] for idx in message[0])
+	else:
+		return "".join(alphabet[int(idx)] for idx in message)
 
 def topographic_similarity(input_vectors, messages):
 	""" 
@@ -61,18 +66,23 @@ def obtain_metrics(training_stats, config_dict):
 	message_list = []
 	for e in training_stats:
 		for m in e["message"]:
-			message_list.append(m)
-
+			## Variable message lengths
+			if type(m) is np.int64:
+				message_list.append(m)
+			else:
+				for m_ in m:
+					message_list.append(m_)
+			
 	metrics["speaker_action_dist"] = action_distribution(message_list)
 	print("Speaker action distribution: %s"%(metrics["speaker_action_dist"]))
 
 	## Listener action distribution
-	## Speaker action distribution 
 	action_list = []
 	for e in training_stats:
+		print(e["chosen_target_idx"])
 		for t in e["chosen_target_idx"]:
 			action_list.append(t)
-			
+
 	metrics["listener_action_dist"] = action_distribution(action_list)
 	print("Listener action distribution: %s"%(metrics["listener_action_dist"]))
 

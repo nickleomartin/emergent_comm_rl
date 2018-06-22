@@ -47,7 +47,7 @@ visa_config_dict = {
 	## Training 
 	"training_epoch": 10000,
 	"batch_size": 1,
-	"n_batches": 15000,
+	"n_batches": 15,
 
 	## Train-split 
 	"train_split_percent": 0.8,
