@@ -39,13 +39,13 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
     z = Dense(self.alphabet_size, activation="relu", kernel_initializer='he_uniform')(t_input)
     z = BatchNormalization()(z)
     ## Candidate set
-    u = Dense(self.speaker_dim, activation="relu", kernel_initializer='he_uniform')
+    u = Dense(self.listener_dim, activation="relu", kernel_initializer='he_uniform')
 
-    c1_input = Input(shape=(self.speaker_dim,))
-    c2_input = Input(shape=(self.speaker_dim,))
-    c3_input = Input(shape=(self.speaker_dim,))
-    c4_input = Input(shape=(self.speaker_dim,))
-    c5_input = Input(shape=(self.speaker_dim,))
+    c1_input = Input(shape=(self.speaker_input_dim,))
+    c2_input = Input(shape=(self.speaker_input_dim,))
+    c3_input = Input(shape=(self.speaker_input_dim,))
+    c4_input = Input(shape=(self.speaker_input_dim,))
+    c5_input = Input(shape=(self.speaker_input_dim,))
     ## Encode candidates
     u_c1 = u(c1_input)
     u_c2 = u(c2_input)

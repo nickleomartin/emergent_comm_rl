@@ -35,6 +35,7 @@ class BaseAgents(object):
 		self.alphabet_size = self.config_dict['alphabet_size']
 		self.speaker_lr = self.config_dict['speaker_lr']
 		self.speaker_dim = self.config_dict['speaker_dim']
+		self.speaker_input_dim = self.config_dict['speaker_input_dim']
 		self.listener_lr = self.config_dict['listener_lr']
 		self.listener_dim = self.config_dict['listener_dim']
 		self.training_epoch = self.config_dict['training_epoch']

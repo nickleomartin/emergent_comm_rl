@@ -13,6 +13,7 @@ random_config_dict = {
 	## Speaker
 	"speaker_lr": 0.01, #0.0001
 	"speaker_dim": 50,
+  "speaker_input_dim": 594,
 
 	## Listener
 	"listener_lr": 0.01, #0.001
@@ -38,7 +39,8 @@ visa_config_dict = {
 
 	## Speaker
 	"speaker_lr": 0.3, #0.0001
-	"speaker_dim": 594,
+  "speaker_dim": 50,
+	"speaker_input_dim": 594,
 
 	## Listener
 	"listener_lr": 0.3, #0.001
