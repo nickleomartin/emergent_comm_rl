@@ -12,23 +12,23 @@ from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 from keras.utils.np_utils import to_categorical
 
-from rl.base_policy_networks import BaseSpeakerPolicyNetwork, BaseListenerPolicyNetwork
+from rl.base_policy_networks import BaseListenerNetwork
 from rl.policy import EpsilonGreedyMessagePolicy
 
 
-class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
+class DenseListenerNetwork(BaseListenerNetwork):
   """ 
   Fully connected listener policy model 
   
   Example:
   --------
   from config import config_dict
-  from networks import DenseListenerPolicyNetwork
+  from networks import DenseListenerNetwork
   
-  listener = DenseListenerPolicyNetwork(config_dict)
+  listener = DenseListenerNetwork(config_dict)
   """
   def __init__(self, config_dict):
-    super(DenseListenerPolicyNetwork, self).__init__(config_dict)
+    super(DenseListenerNetwork, self).__init__(config_dict)
     self.policy = EpsilonGreedyMessagePolicy(eps=0.3) ## TODO: add as parameter later...
     self.__build_train_fn()
 
@@ -148,19 +148,19 @@ class DenseListenerPolicyNetwork(BaseListenerPolicyNetwork):
 
 
 
-class RandomListenerPolicyNetwork(BaseListenerPolicyNetwork):
+class RandomListenerNetwork(BaseListenerNetwork):
   """ 
   Random listener policy model 
   
   Example:
   --------
   from config import random_config_dict as config_dict
-  from rl.listener_policy_networks import RandomListenerPolicyNetwork
+  from rl.listener_policy_networks import RandomListenerNetwork
   
-  listener = RandomListenerPolicyNetwork(config_dict)
+  listener = RandomListenerNetwork(config_dict)
   """
   def __init__(self, config_dict):
-    super(RandomListenerPolicyNetwork, self).__init__(config_dict)
+    super(RandomListenerNetwork, self).__init__(config_dict)
 
   def sample_from_listener_policy(self, speaker_message, candidates):
     """ Sample message of length self.max_message_length from speaker policy """ 

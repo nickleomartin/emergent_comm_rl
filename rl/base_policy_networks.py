@@ -2,7 +2,7 @@
 
 
 
-class BasePolicyNetwork(object):
+class BaseNetwork(object):
 	""" Abstract policy network """
 	def __init__(self, config_dict):
 		self.config_dict = config_dict
@@ -31,10 +31,10 @@ class BasePolicyNetwork(object):
 		pass
 
 	
-class BaseSpeakerPolicyNetwork(BasePolicyNetwork):
+class BaseSpeakerNetwork(BaseNetwork):
 	""" Abstraction of Speaker Network """
 	def __init__(self, config_dict):
-		super(BaseSpeakerPolicyNetwork, self).__init__(config_dict)
+		super(BaseSpeakerNetwork, self).__init__(config_dict)
 		self.batch_target_inputs = []
 		self.initialize_parameters()
 		self.initialize_model()
@@ -57,10 +57,10 @@ class BaseSpeakerPolicyNetwork(BasePolicyNetwork):
 
 
 
-class BaseListenerPolicyNetwork(BasePolicyNetwork):
+class BaseListenerNetwork(BaseNetwork):
 	""" Abstraction of Listner Network """
 	def __init__(self, config_dict):
-		super(BaseListenerPolicyNetwork, self).__init__(config_dict)
+		super(BaseListenerNetwork, self).__init__(config_dict)
 		self.batch_messages = []
 		self.batch_candidates = []
 		self.initialize_parameters()

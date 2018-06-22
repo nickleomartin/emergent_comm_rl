@@ -12,23 +12,23 @@ from keras.layers.normalization import BatchNormalization
 from keras import backend as K
 from keras.utils.np_utils import to_categorical
 
-from rl.base_policy_networks import BaseSpeakerPolicyNetwork
+from rl.base_policy_networks import BaseSpeakerNetwork
 from rl.policy import EpsilonGreedyMessagePolicy
 
 
-class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
+class DenseSpeakerNetwork(BaseSpeakerNetwork):
   """ 
   Fully connected speaker policy model 
   
   Example:
   --------
   from config import config_dict
-  from rl.speaker_policy_networks import DenseSpeakerPolicyNetwork
+  from rl.speaker_policy_networks import DenseSpeakerNetwork
   
-  speaker = DenseSpeakerPolicyNetwork(config_dict)
+  speaker = DenseSpeakerNetwork(config_dict)
   """
   def __init__(self, config_dict):
-    super(DenseSpeakerPolicyNetwork, self).__init__(config_dict)
+    super(DenseSpeakerNetwork, self).__init__(config_dict)
     self.policy = EpsilonGreedyMessagePolicy(eps=0.4) ## TODO: add as parameter later...
     self.__build_train_fn()
 
@@ -106,19 +106,19 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
 
 
 
-class PaperSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
+class PaperSpeakerNetwork(BaseSpeakerNetwork):
   """ 
   Fully connected speaker policy model 
   
   Example:
   --------
   from config import config_dict
-  from rl.speaker_policy_networks import DenseSpeakerPolicyNetwork
+  from rl.speaker_policy_networks import PaperSpeakerNetwork
   
-  speaker = DenseSpeakerPolicyNetwork(config_dict)
+  speaker = PaperSpeakerNetwork(config_dict)
   """
   def __init__(self, config_dict):
-    super(DenseSpeakerPolicyNetwork, self).__init__(config_dict)
+    super(PaperSpeakerNetwork, self).__init__(config_dict)
     self.policy = EpsilonGreedyMessagePolicy(eps=0.4) ## TODO: add as parameter later...
     self.__build_train_fn()
 
@@ -127,7 +127,7 @@ class PaperSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
     # Define an input sequence and process it.
     encoder_inputs = Input(shape=(self.speaker_dim,))
     d = Dense(self.speaker_dim, activation="relu")
-    
+
     encoder_outputs, state_h, state_c = encoder(encoder_inputs)
     # We discard `encoder_outputs` and only keep the states.
     encoder_states = [state_h, state_c]
@@ -219,19 +219,19 @@ class PaperSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
 
 
 
-class RandomSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
+class RandomSpeakerNetwork(BaseSpeakerNetwork):
   """ 
   Random speaker policy model 
   
   Example:
   --------
   from config import random_config_dict as config_dict
-  from rl.speaker_policy_networks import RandomSpeakerPolicyNetwork
+  from rl.speaker_policy_networks import RandomSpeakerNetwork
   
-  speaker = RandomSpeakerPolicyNetwork(config_dict)
+  speaker = RandomSpeakerNetwork(config_dict)
   """
   def __init__(self, config_dict):
-    super(RandomSpeakerPolicyNetwork, self).__init__(config_dict)
+    super(RandomSpeakerNetwork, self).__init__(config_dict)
 
   def sample_from_speaker_policy(self, target_input):
     """ Sample message of length self.max_message_length from speaker policy """ 
