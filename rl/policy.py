@@ -37,7 +37,8 @@ class EpsilonGreedyMessagePolicy(BasePolicy):
 	def select_action(self, probs, n_actions, m_length):
 		""" Sample action according to probaility """
 		if np.random.uniform() < self.eps:
-			return np.random.choice(n_actions, m_length, p=probs[0])
+			print("Chose random action")
+			return np.random.choice(n_actions, m_length)
 		else:
 			return list(probs[0].argsort()[-m_length:][::-1])
 

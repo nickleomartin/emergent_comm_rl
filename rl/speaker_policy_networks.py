@@ -7,9 +7,10 @@ import keras
 from keras.models import Sequential, load_model, Model 
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.layers import Input, Dense, Convolution2D, LSTM
-from keras.optimizers import RMSprop
+from keras.optimizers import RMSprop, Adam
 from keras.layers.normalization import BatchNormalization
 from keras import backend as K
+from keras.utils.np_utils import to_categorical
 
 from rl.base_policy_networks import BaseSpeakerPolicyNetwork
 from rl.policy import EpsilonGreedyMessagePolicy
@@ -74,73 +75,79 @@ class DenseSpeakerPolicyNetwork(BaseSpeakerPolicyNetwork):
   """
   def __init__(self, config_dict):
     super(DenseSpeakerPolicyNetwork, self).__init__(config_dict)
-    self.policy = EpsilonGreedyMessagePolicy(eps=0.1) ## TODO: add as parameter later...
+    self.policy = EpsilonGreedyMessagePolicy(eps=0.4) ## TODO: add as parameter later...
+    self.__build_train_fn()
 
   def initialize_model(self):
     """ 2 Layer fully-connected neural network """
     self.speaker_model = Sequential()
-    self.speaker_model.add(Dense(self.speaker_dim, activation="relu", input_shape=(self.speaker_dim,)))
-    self.speaker_model.add(Dense(self.alphabet_size,activation="softmax"))
-    self.speaker_model.compile(loss="categorical_crossentropy", optimizer=RMSprop(lr=self.speaker_lr))
+    self.speaker_model.add(Dense(self.speaker_dim, activation="relu", input_shape=(self.speaker_dim,), kernel_initializer='he_uniform'))
+    self.speaker_model.add(BatchNormalization())
+    self.speaker_model.add(Dense(self.speaker_dim, activation="relu", kernel_initializer='he_uniform'))
+    self.speaker_model.add(BatchNormalization())
+    self.speaker_model.add(Dense(self.alphabet_size, activation="softmax"))
   
-  def reshape_target(self, target_input):
-    """ Reshape target_input to (1, input_dim) """
-    return target_input.reshape([1,self.speaker_dim])
+  def __build_train_fn(self):
+    action_prob_placeholder = self.speaker_model.output
+    action_onehot_placeholder = K.placeholder(shape=(None, self.alphabet_size), name="action_onehot")
+    reward_placeholder = K.placeholder(shape=(None,), name="reward")
+    action_prob = K.sum(action_prob_placeholder*action_onehot_placeholder, axis=1)
+    log_action_prob = K.log(action_prob)
+    loss = -log_action_prob*reward_placeholder
 
-  def sample_speaker_policy_for_message(self, target_input):
-    """ Stochastically sample message of length self.max_message_length from speaker policy """ 
-    t_input = self.reshape_target(target_input)
-    probs = self.speaker_model.predict_on_batch(t_input)
-    normalized_probs = probs / np.sum(probs)
-    ## Epsilon greedy policy
-    speaker_message = self.policy.select_action(normalized_probs, self.alphabet_size, self.max_message_length)
-    ## Return action and probs
-    return speaker_message, normalized_probs
+    ## Add entropy to the loss
+    entropy = K.sum(action_prob_placeholder * K.log(action_prob_placeholder + 1e-10), axis=1)
+    entropy = K.sum(entropy)
+    
+    loss = loss + 0.1*entropy
+    loss = K.mean(loss)
+    adam = Adam()
+    updates = adam.get_updates(params=self.speaker_model.trainable_weights,loss=loss)
+    self.train_fn = K.function(
+        inputs=[self.speaker_model.input, action_onehot_placeholder, reward_placeholder],
+        outputs=[loss, entropy], updates=updates)
+
+  def sample_from_speaker_policy(self, target_input):
+    if len(target_input.shape)==1:
+      target_input = np.expand_dims(target_input, axis=0)
+    action_prob = np.squeeze(self.speaker_model.predict(target_input))
+    ## Assume single token message!!!!!!!
+    action = np.random.choice(np.arange(self.alphabet_size), p=action_prob)
+    # print("Speaker action_prob: ", action_prob)
+    print("Speaker action: ", action)
+    return [action], action_prob
+
+  def infer_from_speaker_policy(self, target_input):
+    if len(target_input.shape)==1:
+      target_input = np.expand_dims(target_input, axis=0)
+    action_prob = np.squeeze(self.speaker_model.predict(target_input))
+    ## Assume single token message!!!!!!!
+    print("speaker action_probs: ", action_prob)
+    action = np.argmax(action_prob)
+    print("speaker action: ", action)
+    return [action], action_prob
+
+  def train_speaker_policy_on_batch(self):
+    target_input = self.trial_target_input 
+    action = self.trial_action 
+    reward = self.trial_reward
+
+    action_onehot = to_categorical(action, num_classes=self.alphabet_size)
+    target_input = self.reshape_target(target_input)
+    reward = np.array([reward])
+    loss_, entropy_ = self.train_fn([target_input, action_onehot, reward])
+    print("Speaker loss: ", loss_)
+    print("Speaker entropy: ", entropy_)
 
   def remember_speaker_training_details(self, target_input, action, speaker_probs, reward):
     """ Store inputs and outputs needed for training """
-    ## Store
-    self.batch_target_inputs.append(target_input) 
-    self.batch_actions.append(action)
-    self.batch_rewards.append(reward)
-    self.batch_probs.append(speaker_probs)
-    y = np.zeros(self.alphabet_size)
-    for i in range(self.max_message_length):
-      y[action[i]] = 1
-    gradients = np.array(y).astype("float32") - speaker_probs
-    self.batch_gradients.append(gradients)
+    ## Assumes batch_size ==1!!!!
+    self.trial_target_input = target_input 
+    self.trial_action = action 
+    self.trial_reward = reward 
 
-  def train_speaker_policy_on_batch(self):
-    """ Update speaker policy given rewards """
-    ## Calculate gradients = action - probs
-    gradients = np.vstack(self.batch_gradients)
-    ## Batch standardise rewards. Note: no discounting of rewards
-    rewards = np.vstack(self.batch_rewards)
-    if np.count_nonzero(rewards)>0:
-      rewards = rewards / np.std(rewards - np.mean(rewards)) ## TODO: Handle zero rewards
-    ## Calculate gradients * rewards
-    gradients *= rewards
-    ## Create X
-    X = np.vstack([self.batch_target_inputs])
-    ## Create Y = probs + lr * gradients
-    Y = np.squeeze(np.array(self.batch_probs)) + self.speaker_lr * np.squeeze(np.vstack([gradients]))
-    ## Train model
-    self.speaker_model.train_on_batch(X, Y)
-    ## Reset batch memory
-    self.batch_target_inputs, self.batch_actions, \
-    self.batch_rewards, self.batch_gradients, \
-    self.batch_probs = [], [], [], [], []
-
-  def infer_from_speaker_policy(self, target_input):
-    """ Greedily obtain message from speaker policy """
-    ## Get symbol probabilities given target input
-    probs = self.speaker_model.predict_on_batch(self.reshape_target(target_input))
-    normalized_probs = probs/np.sum(probs)
-    ## Greedily get symbols with largest probabilities
-    message_indices = list(normalized_probs[0].argsort()[-self.max_message_length:][::-1])
-    message_probs = normalized_probs[0][message_indices]
-    message = message_indices
-    ## TODO: Also return sum[log prob () mi | target input and weights)]??
-    return message, message_probs
+  def reshape_target(self, target_input):
+    """ Reshape target_input to (1, input_dim) """
+    return target_input.reshape([1,self.speaker_dim])
 
 

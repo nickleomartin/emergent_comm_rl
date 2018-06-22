@@ -52,7 +52,8 @@ class BaseAgents(object):
 	def sample_from_networks_on_batch(self, target_input, candidates, target_candidate_idx):
 
 		## Sample from speaker
-		speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
+		# speaker_message, speaker_probs = self.speaker_model.sample_speaker_policy_for_message(target_input)
+		speaker_message, speaker_probs = self.speaker_model.sample_from_speaker_policy(target_input)
 
 		## Sample from listener
 		listener_action, listener_probs = self.listener_model.sample_from_listener_policy(speaker_message, candidates)
@@ -62,7 +63,7 @@ class BaseAgents(object):
 
 		## Store batch inputs and outputs
 		self.speaker_model.remember_speaker_training_details(target_input, speaker_message, speaker_probs, reward)
-		self.listener_model.remember_listener_training_details(speaker_message, listener_action, listener_probs, reward)
+		self.listener_model.remember_listener_training_details(speaker_message, listener_action, listener_probs, candidates, reward)
 
 		## Increment batch statistics
 		self.total_training_reward += reward
@@ -194,7 +195,7 @@ class VisaAgents(BaseAgents):
 				print("Training Example: %s of %s"%(i+1,training_size))
 			target_input, candidates, target_candidate_idx = train_example
 			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
-			chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
+			chosen_target_idx, listener_probs = self.listener_model.infer_from_listener_policy(message, candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
 
@@ -217,7 +218,7 @@ class VisaAgents(BaseAgents):
 				print("Test Example: %s of %s"%(i+1,test_size))
 			target_input, candidates, target_candidate_idx = test_example
 			message, message_probs = self.speaker_model.infer_from_speaker_policy(target_input)
-			chosen_target_idx = self.listener_model.infer_from_listener_policy(message, candidates)
+			chosen_target_idx, listener_probs = self.listener_model.infer_from_listener_policy(message, candidates)
 			reward = self.calculate_reward(chosen_target_idx,target_candidate_idx)
 			total_reward += reward
 

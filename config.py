@@ -37,17 +37,17 @@ visa_config_dict = {
 	"alphabet": [c for c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYX0123456789'],
 
 	## Speaker
-	"speaker_lr": 0.01, #0.0001
+	"speaker_lr": 0.3, #0.0001
 	"speaker_dim": 594,
 
 	## Listener
-	"listener_lr": 0.01, #0.001
+	"listener_lr": 0.3, #0.001
 	"listener_dim": 50,
 
 	## Training 
 	"training_epoch": 10000,
-	"batch_size": 32,
-	"n_batches": 100,
+	"batch_size": 1,
+	"n_batches": 15000,
 
 	## Train-split 
 	"train_split_percent": 0.8,

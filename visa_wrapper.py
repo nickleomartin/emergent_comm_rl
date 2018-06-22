@@ -16,10 +16,6 @@ class VisaDatasetWrapper(object):
 	vdw = VisaDatasetWrapper()
 	vdw.create_train_test_datasets(config_dict)
 	b1 = vdw.training_batch_generator()
-
-	for b in b1:
-		i,j,k = b
-		print(i,j,k)
 	"""
 	def __init__(self, dataset_dir="visa_dataset",file_extension=".xml", ):
 		self.dataset_dir = dataset_dir
@@ -130,7 +126,7 @@ class VisaDatasetWrapper(object):
 		self.n_distractors = config_dict["n_distractors"]
 
 		## TODO: Set random seed
-		np.random.seed(0)
+		# np.random.seed(0)
 
 		## TODO: Add comments
 		self.create_concept_dictionary()
@@ -161,10 +157,10 @@ class VisaDatasetWrapper(object):
 			distractors_idx = self.negatively_sample_distractors(sampled_target_idx, self.n_training_rows, self.n_distractors)
 
 			## Naive shuffling with record. TODO: improve..
-			rand_idx = np.random.randint(0, self.n_distractors+1)
+			rand_idx = np.random.randint(0, self.n_distractors)
 			candidate_idx_set = []
-			for dist_idx in distractors_idx:
-				if i==rand_idx:
+			for j,dist_idx in enumerate(distractors_idx):
+				if j==rand_idx:
 					candidate_idx_set.append(sampled_target_idx)
 				candidate_idx_set.append(dist_idx)
 
@@ -179,10 +175,10 @@ class VisaDatasetWrapper(object):
 			distractors_idx = self.negatively_sample_distractors(idx, self.n_training_rows, self.n_distractors)
 
 			## Naive shuffling with record. TODO: improve..
-			rand_idx = np.random.randint(0, self.n_distractors+1)
+			rand_idx = np.random.randint(0, self.n_distractors)
 			candidate_idx_set = []
-			for dist_idx in distractors_idx:
-				if idx==rand_idx:
+			for j,dist_idx in enumerate(distractors_idx):
+				if j==rand_idx:
 					candidate_idx_set.append(idx)
 				candidate_idx_set.append(dist_idx)
 
@@ -197,10 +193,10 @@ class VisaDatasetWrapper(object):
 			distractors_idx = self.negatively_sample_distractors(idx, self.n_testing_rows, self.n_distractors)
 
 			## Naive shuffling with record. TODO: improve..
-			rand_idx = np.random.randint(0, self.n_distractors+1)
+			rand_idx = np.random.randint(0, self.n_distractors)
 			candidate_idx_set = []
-			for dist_idx in distractors_idx:
-				if idx==rand_idx:
+			for j,dist_idx in  enumerate(distractors_idx):
+				if j==rand_idx:
 					candidate_idx_set.append(idx)
 				candidate_idx_set.append(dist_idx)
 

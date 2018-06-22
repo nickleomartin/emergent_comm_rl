@@ -11,6 +11,7 @@ def task_accuracy_metrics(reward_list):
 	return accuracy
 
 def action_distribution(action_list):
+	print("action list: ", action_list)
 	counter = collections.Counter(action_list)
 	return counter
 
@@ -46,7 +47,6 @@ def topographic_similarity(input_vectors, messages):
 
 	## Calculate negative Spearman correlation between message distances and vector similarities
 	rho = spearmanr(message_similarities,input_vect_similarities) 
-
 	return - rho.correlation
 
 def obtain_metrics(training_stats, config_dict):
@@ -67,7 +67,12 @@ def obtain_metrics(training_stats, config_dict):
 	print("Speaker action distribution: %s"%(metrics["speaker_action_dist"]))
 
 	## Listener action distribution
-	action_list = [e["chosen_target_idx"] for e in training_stats]
+	## Speaker action distribution 
+	action_list = []
+	for e in training_stats:
+		for t in e["chosen_target_idx"]:
+			action_list.append(t)
+			
 	metrics["listener_action_dist"] = action_distribution(action_list)
 	print("Listener action distribution: %s"%(metrics["listener_action_dist"]))
 
@@ -75,6 +80,7 @@ def obtain_metrics(training_stats, config_dict):
 	input_vectors = [e['input'] for e in training_stats]
 	messages = [message_sequence_to_alphabet(e['message'], config_dict['alphabet']) for e in training_stats]
 	metrics['topographical_sim'] = topographic_similarity(input_vectors, messages)
+	print("Topographical Similarity: %s"%(metrics['topographical_sim']))
 
 	return metrics
 

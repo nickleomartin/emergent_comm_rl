@@ -16,6 +16,7 @@ class BasePolicyNetwork(object):
 		self.listener_dim = self.config_dict['listener_dim']
 		self.training_epoch = self.config_dict['training_epoch']
 		self.batch_size = self.config_dict['batch_size']
+		self.n_distractors = self.config_dict['n_distractors']
 		self.n_classes = self.config_dict['n_distractors'] + 1
 
 	def initialize_model(self):
@@ -58,6 +59,7 @@ class BaseListenerPolicyNetwork(BasePolicyNetwork):
 		super(BaseListenerPolicyNetwork, self).__init__()
 		self.config_dict = config_dict
 		self.batch_messages = []
+		self.batch_candidates = []
 		self.batch_rewards = []
 		self.batch_actions = []
 		self.batch_probs = []
