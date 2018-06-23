@@ -68,7 +68,7 @@ We can see that under-trained agents exhibit degenerative policies by sticking t
 
 Using Agents:
 -------------
-Currently the code closed to other datasets. To perform experiments with fully connected speaker and listener networks on the Visa dataset, run:
+Currently the code is closed to other datasets. To perform experiments with fully connected speaker and listener networks on the Visa dataset, run:
 ```python
 from config import visa_config_dict as config_dict
 from evaluation import obtain_metrics
@@ -76,7 +76,6 @@ from rl.agents import VisaAgents
 from rl.speaker_policy_networks import DenseSpeakerNetwork
 from rl.listener_policy_networks import DenseListenerNetwork
 from visa_wrapper import VisaDatasetWrapper 
-
 
 print("Obtaining dataset")
 ## Process Visa dataset
