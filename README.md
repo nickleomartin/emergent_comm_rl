@@ -104,6 +104,38 @@ obtain_metrics(agent.testing_stats,config_dict)
 ```
 The VisaDatasetWrapper return a batch generator for training, the whole training set for evaluation and the whole test set for testing. The ```obtain_metrics``` function determines joint accuracy on the task, the distribution of actions taken by the speaker and listener at inference time and the topographical similarity.  
 
+Setting Experimental Parameters:
+--------------------------------
+Parameters for each experiment can be found in ```config.py```. For example:
+```
+visa_config_dict = {
+
+	## Data generation
+	"n_distractors": 4,
+
+	## Language constraints
+	"max_message_length": 2,
+	"alphabet_size": 62,
+	"alphabet": [c for c in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYX0123456789'],
+
+	## Speaker
+	"speaker_lr": 0.1, 
+	"speaker_dim": 50,
+	"speaker_input_dim": 594,
+
+	## Listener
+	"listener_lr": 0.01,
+	"listener_dim": 50,
+
+	## Training 
+	"training_epoch": None, ## Unused at present
+	"batch_size": 1, ## Code assumes batch_size=1 for now
+	"n_batches": 1000,
+
+	## Train-split 
+	"train_split_percent": 0.8,
+}
+```
 
 To-Do
 -----
