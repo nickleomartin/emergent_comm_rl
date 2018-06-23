@@ -119,14 +119,14 @@ class RandomBaselineAgents(BaseAgents):
 	from config import random_config_dict as config_dict
 	from data_generator import generate_dummy_categorical_dataset
 	from networks import RandomBaselineAgents
-	from rl.speaker_policy_networks import RandomSpeakerPolicyNetwork
-	from rl.listener_policy_networks import RandomListenerPolicyNetwork
+	from rl.speaker_policy_networks import RandomSpeakerNetwork
+	from rl.listener_policy_networks import RandomListenerNetwork
 	
 	## Get training data
 	train_data = generate_dummy_categorical_dataset(config_dict,"training")
 
-	speaker = RandomSpeakerPolicyNetwork(config_dict)
-	listener = RandomListenerPolicyNetwork(config_dict)
+	speaker = RandomSpeakerNetwork(config_dict)
+	listener = RandomListenerNetwork(config_dict)
 
 	## Initialize and train agent
 	rba = RandomBaselineAgents(config_dict, speaker, listener)
@@ -145,8 +145,8 @@ class VisaAgents(BaseAgents):
 	--------
 	from config import visa_config_dict as config_dict
 	from rl.agents import VisaAgents
-	from rl.speaker_policy_networks import DenseSpeakerPolicyNetwork
-	from rl.listener_policy_networks import DenseListenerPolicyNetwork
+	from rl.speaker_policy_networks import DenseSpeakerNetwork
+	from rl.listener_policy_networks import DenseListenerNetwork
 	from visa_wrapper import VisaDatasetWrapper 
 
 	print("Get dataset")
@@ -154,8 +154,8 @@ class VisaAgents(BaseAgents):
 	data_generator.create_train_test_datasets(config_dict)
 
 	print("Train Agents")
-	speaker = DenseSpeakerPolicyNetwork(config_dict)
-	listener = DenseListenerPolicyNetwork(config_dict)
+	speaker = DenseSpeakerNetwork(config_dict)
+	listener = DenseListenerNetwork(config_dict)
 	da = VisaAgents(config_dict,speaker,listener)
 	da.fit(data_generator)
 	"""
