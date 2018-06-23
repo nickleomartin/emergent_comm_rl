@@ -101,7 +101,7 @@ print("Evaluate Agent Generalisation")
 agent.predict(data_generator)
 obtain_metrics(agent.testing_stats,config_dict)
 ```
-The VisaDatasetWrapper return a batch generator for training, the whole training set for evaluation and the whole test set for testing. The ```obtain_metrics``` function determines joint accuracy on the task, the distribution of actions taken by the speaker and listener at inference time and the topographical similarity.  
+The VisaDatasetWrapper return a batch generator for training, the whole training set for evaluation and the whole test set for testing. The ```obtain_metrics``` function determines joint accuracy on the task, the distribution of actions taken by the speaker and listener at inference time and the topographical similarity. Preliminary experiments suggest that fully connect agents are highly sensitive to the experimental hyper-parameters. For example, adding entropy regularization to the loss prevents premature convergence to a single action policy and a larger distribution of actions chosen on the test set. 
 
 Setting Experimental Parameters:
 --------------------------------
