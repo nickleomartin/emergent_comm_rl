@@ -66,6 +66,45 @@ Topographical Similarity: 0.1005088994156145
 ```
 We can see that under-trained agents exhibit degenerative policies by sticking to one or two actions irrespective of the inputs. The small topographical similarity suggests that there is negligible correlation between the message similarities and the input vector distances.
 
+Using Agents:
+-------------
+Currently the code closed to other datasets. To perform experiments with fully connected speaker and listener networks on the Visa dataset, run:
+```python
+from config import visa_config_dict as config_dict
+from evaluation import obtain_metrics
+from rl.agents import VisaAgents
+from rl.speaker_policy_networks import DenseSpeakerNetwork
+from rl.listener_policy_networks import DenseListenerNetwork
+from visa_wrapper import VisaDatasetWrapper 
+
+
+print("Obtaining dataset")
+## Process Visa dataset
+data_generator = VisaDatasetWrapper()
+data_generator.create_train_test_datasets(config_dict)
+
+print("Training Agents")
+## Instantiate speaker and listener networks
+speaker = DenseSpeakerNetwork(config_dict)
+listener = DenseListenerNetwork(config_dict)
+
+## Train speaker and listener networks
+agent = VisaAgents(config_dict,speaker,listener)
+agent.fit(data_generator)
+
+print("Evaulating on training set")
+## Infer on training set and get summary statistics
+agent.evaluate_on_training_set(data_generator)
+obtain_metrics(agent.training_eval_stats, config_dict)
+
+print("Evaluate Agent Generalisation")
+## Infer on test set and get summary statistics
+agent.predict(data_generator)
+obtain_metrics(agent.testing_stats,config_dict)
+```
+The VisaDatasetWrapper return a batch generator for training, the whole training set for evaluation and the whole test set for testing. The ```obtain_metrics``` function determines joint accuracy on the task, the distribution of actions taken by the speaker and listener at inference time and the topographical similarity.  
+
+
 To-Do
 -----
 V1: Random Baseline
